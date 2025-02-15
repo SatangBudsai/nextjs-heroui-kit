@@ -1,7 +1,7 @@
 'use client'
 
 import React, { ReactNode } from 'react'
-import { Card } from '@nextui-org/react'
+import { Card } from "@heroui/react"
 import { useMediaQuery } from 'usehooks-ts'
 import Sidebar from './partial/sidebar'
 import Navbar from './partial/navbar'

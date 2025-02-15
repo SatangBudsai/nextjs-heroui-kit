@@ -2,7 +2,7 @@
 
 import React, { useState, Fragment, useEffect } from 'react'
 import { Icon } from '@iconify/react'
-import { Button, Card, Select, SelectItem, SelectSection, Tooltip } from '@nextui-org/react'
+import { Button, Card, Select, SelectItem, SelectSection, Tooltip } from "@heroui/react"
 import { useDispatch, useSelector } from 'react-redux'
 import Drawer from '@/components/drawer'
 import Sidebar from './sidebar'

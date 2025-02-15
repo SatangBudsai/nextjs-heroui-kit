@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Icon } from '@iconify/react'
 import { DayPicker, DropdownProps } from 'react-day-picker'
 import dayjs from 'dayjs'
-import { Select, SelectItem, cn } from '@nextui-org/react'
+import { Select, SelectItem, cn } from "@heroui/react"
 
 const formatCaption = (date: Date) => {
   const y = dayjs(date).format('YYYY')

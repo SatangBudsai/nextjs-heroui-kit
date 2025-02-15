@@ -4,7 +4,7 @@ import RootLayout from '@/layouts/root-layout'
 import MainLayout from '@/layouts/main-layout'
 import { DateRange } from 'react-day-picker'
 import Alert from '@/components/alert'
-import { Button, Input, Image, Spacer } from '@nextui-org/react'
+import { Button, Input, Image, Spacer } from "@heroui/react"
 import useLoaderGlobal from '@/hooks/useLoadingScreen'
 import DatePicker from '@/components/date-picker'
 import DateMultiplePicker from '@/components/date-multiple-picker'

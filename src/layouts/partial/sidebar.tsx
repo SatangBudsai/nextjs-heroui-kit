@@ -1,7 +1,7 @@
 import { StateType } from '@/store'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Avatar, Button, ScrollShadow, Spacer, Tooltip } from '@nextui-org/react'
+import { Avatar, Button, ScrollShadow, Spacer, Tooltip } from "@heroui/react"
 import { cn } from '@/utils/cn'
 import SidebarMenu from './sidebar-menu'
 import useSectionItems from './sidebar-items'

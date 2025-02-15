@@ -1,12 +1,12 @@
 import MainLayout from '@/layouts/main-layout'
 import RootLayout from '@/layouts/root-layout'
 import React, { Fragment, ReactElement } from 'react'
-import { Select, SelectItem, Spacer } from '@nextui-org/react'
-import BarChart from './BarChart'
-import PieChart from './PieChart'
-import Department from './Department'
-import CarbonUse from './CarbonUse'
-import CarbonReduce from './CarbonReduce'
+import { Select, SelectItem, Spacer } from '@heroui/react'
+import BarChart from '@/view/dashboard/BarChart'
+import Department from '@/view/dashboard/Department'
+import PieChart from '@/view/dashboard/PieChart'
+import CarbonUse from '@/view/dashboard/CarbonUse'
+import CarbonReduce from '@/view/dashboard/CarbonReduce'
 
 type Props = {}
 

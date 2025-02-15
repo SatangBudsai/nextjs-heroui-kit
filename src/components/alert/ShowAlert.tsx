@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { Button, Modal, ModalBody, ModalContent, useDisclosure, cn } from '@nextui-org/react'
+import { Button, Modal, ModalBody, ModalContent, useDisclosure, cn } from "@heroui/react"
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { createRoot } from 'react-dom/client'
 
