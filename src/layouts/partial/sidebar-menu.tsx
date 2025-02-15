@@ -1,17 +1,11 @@
 'use client'
 
-import {
-  Accordion,
-  AccordionItem,
-  type ListboxProps,
-  type ListboxSectionProps,
-  type Selection
-} from "@heroui/react"
+import { Accordion, AccordionItem, type ListboxProps, type ListboxSectionProps, type Selection } from '@heroui/react'
 import React from 'react'
-import { Listbox, Tooltip, ListboxItem, ListboxSection } from "@heroui/react"
-import { Icon } from '@iconify/react'
+import { Listbox, Tooltip, ListboxItem, ListboxSection } from '@heroui/react'
 import { cn } from '@/utils/cn'
 import { useRouter } from 'next/router'
+import Icon from '@/components/icon'
 
 export enum SidebarItemType {
   Nest = 'nest'

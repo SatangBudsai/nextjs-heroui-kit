@@ -23,6 +23,8 @@ import { initLightboxJS } from 'lightbox.js-react'
 import 'lightbox.js-react/dist/index.css'
 import '@/configs/i18n'
 
+import '@/iconify-bundle/icons-bundle-react'
+
 import { Prompt } from 'next/font/google'
 const prompt = Prompt({
   subsets: ['latin', 'latin-ext', 'thai'],

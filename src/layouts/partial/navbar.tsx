@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, Fragment, useEffect } from 'react'
-import { Icon } from '@iconify/react'
 import { Button, Card, Select, SelectItem, SelectSection, Tooltip } from '@heroui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import Drawer from '@/components/drawer'
@@ -13,6 +12,7 @@ import configLayout from '@/layouts/config-layout.json'
 import NProgress from 'nprogress'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import SwitchLanguage from '@/components/switch-language'
+import Icon from '@/components/icon'
 
 type Props = {}
 

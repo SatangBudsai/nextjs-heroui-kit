@@ -4,7 +4,7 @@ import RootLayout from '@/layouts/root-layout'
 import MainLayout from '@/layouts/main-layout'
 import { DateRange } from 'react-day-picker'
 import Alert from '@/components/alert'
-import { Button, Input, Image, Spacer } from "@heroui/react"
+import { Button, Input, Image, Spacer } from '@heroui/react'
 import useLoaderGlobal from '@/hooks/useLoadingScreen'
 import DatePicker from '@/components/date-picker'
 import DateMultiplePicker from '@/components/date-multiple-picker'
@@ -54,12 +54,11 @@ const UploadFile = (props: Props) => {
   const [date, setDate] = useState<Date | undefined>()
   const [arrDate, setArrDate] = useState<Date[] | undefined>()
   const [rangeDate, setRangeDate] = useState<DateRange | undefined>()
-  const { t: tCommon } = useTranslation('translation', { keyPrefix: 'common' })
 
   const getApi = async () => {
-    loaderGlobal.start()
+    loaderGlobal.start({ key: 'example-loading' })
     exampleSubService.getExample()
-    loaderGlobal.stop()
+    loaderGlobal.stop({ key: 'example-loading' })
   }
 
   const [uploadFiles, setUploadFiles] = useState<File[]>([])

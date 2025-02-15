@@ -4,7 +4,7 @@ import RootLayout from '@/layouts/root-layout'
 import MainLayout from '@/layouts/main-layout'
 import { DateRange } from 'react-day-picker'
 import Alert from '@/components/alert'
-import { Button, Input, Image, Spacer } from "@heroui/react"
+import { Button, Input, Image, Spacer } from '@heroui/react'
 import DatePicker from '@/components/date-picker'
 import DateMultiplePicker from '@/components/date-multiple-picker'
 import DateRangePicker from '@/components/date-range-picker'
@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import UploadMultipleFile from '@/components/upload-multiple-file'
 import UploadSingleFile from '@/components/upload-singer-file'
 import useLoadingScreen from '@/hooks/useLoadingScreen'
+import Icon from '@/components/icon'
 
 type ItemsType = {
   pathURL: string
@@ -94,7 +95,9 @@ const Home = (props: Props) => {
       <div className='flex flex-col gap-5'>
         <div className='flex flex-wrap items-center justify-center gap-5'>Template NextJs and NextUI</div>
         <div className='flex justify-center'>{t('common.hello')}</div>
-
+        <Icon icon='custom:file-ai' width={30} />
+        <Icon icon='custom:file-dll' width={30} />
+        <Icon icon='custom:file-bmp' width={30} />
         <Button variant='flat' color='primary' onClick={getApi}>
           Call API
         </Button>
