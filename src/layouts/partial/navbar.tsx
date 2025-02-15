@@ -2,7 +2,7 @@
 
 import React, { useState, Fragment, useEffect } from 'react'
 import { Icon } from '@iconify/react'
-import { Button, Card, Select, SelectItem, SelectSection, Tooltip } from "@heroui/react"
+import { Button, Card, Select, SelectItem, SelectSection, Tooltip } from '@heroui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import Drawer from '@/components/drawer'
 import Sidebar from './sidebar'
@@ -18,10 +18,10 @@ type Props = {}
 
 const Navbar = (props: Props) => {
   const dispatch = useDispatch()
-  const appSettingState = useSelector((state: StateType) => state.appSettingState)
+  const appSettingReducer = useSelector((state: StateType) => state.appSettingReducer)
   const { isMobile } = useBreakpoint()
   const [isOpenToggle, setIsOpenToggle] = useState(false)
-  const isCompact = appSettingState.isCompact || isMobile
+  const isCompact = appSettingReducer.isCompact || isMobile
 
   const onToggleCompact = () => {
     dispatch(appSettingAction.onToggleCompact())
@@ -83,7 +83,7 @@ const Navbar = (props: Props) => {
             ) : (
               <Tooltip
                 showArrow={true}
-                content={`${appSettingState.isCompact ? 'ขยายเมนู' : 'ย่อเมนู'}`}
+                content={`${appSettingReducer.isCompact ? 'ขยายเมนู' : 'ย่อเมนู'}`}
                 delay={0}
                 closeDelay={200}>
                 <Button isIconOnly size='sm' variant='light' onPress={onToggleCompact}>

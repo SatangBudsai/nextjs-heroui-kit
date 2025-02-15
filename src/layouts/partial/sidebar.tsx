@@ -1,7 +1,7 @@
 import { StateType } from '@/store'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Avatar, Button, ScrollShadow, Spacer, Tooltip } from "@heroui/react"
+import { Avatar, Button, ScrollShadow, Spacer, Tooltip } from '@heroui/react'
 import { cn } from '@/utils/cn'
 import SidebarMenu from './sidebar-menu'
 import useSectionItems from './sidebar-items'
@@ -16,11 +16,11 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   const sectionItems = useSectionItems()
-  const appSettingState = useSelector((state: StateType) => state.appSettingState)
+  const appSettingReducer = useSelector((state: StateType) => state.appSettingReducer)
   const { isMobile, isIpad } = useBreakpoint()
   const { setTheme, theme } = useTheme()
 
-  const isCompact = props.disableIsCompact ? false : appSettingState.isCompact || isIpad
+  const isCompact = props.disableIsCompact ? false : appSettingReducer.isCompact || isIpad
 
   const handleChangeTheme = () => {
     if (theme === 'light') {
