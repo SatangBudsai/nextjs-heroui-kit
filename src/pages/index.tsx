@@ -1,4 +1,3 @@
-import { Fragment, ReactElement, useState } from 'react'
 import { useTheme } from 'next-themes'
 import RootLayout from '@/layouts/root-layout'
 import MainLayout from '@/layouts/main-layout'
@@ -16,6 +15,7 @@ import UploadMultipleFile from '@/components/upload-multiple-file'
 import UploadSingleFile from '@/components/upload-singer-file'
 import useLoadingScreen from '@/hooks/useLoadingScreen'
 import Icon from '@/components/icon'
+import { Fragment, ReactElement, useState } from 'react'
 
 type ItemsType = {
   pathURL: string
@@ -104,7 +104,7 @@ const Home = (props: Props) => {
         <div className='grid grid-cols-6 gap-5 max-md:grid-cols-2'>
           <Button
             color='primary'
-            onClick={() =>
+            onPress={() =>
               Alert.message({
                 content: 'Open Message',
                 noButton: true
@@ -115,7 +115,7 @@ const Home = (props: Props) => {
 
           <Button
             color='secondary'
-            onClick={() =>
+            onPress={() =>
               Alert.message({
                 content: 'Open Message',
                 noButton: true,
@@ -137,7 +137,7 @@ const Home = (props: Props) => {
 
           <Button
             color='warning'
-            onClick={() =>
+            onPress={() =>
               Alert.warning({
                 content: 'Open warning'
               })
@@ -147,7 +147,7 @@ const Home = (props: Props) => {
 
           <Button
             color='success'
-            onClick={() =>
+            onPress={() =>
               Alert.success({
                 content: 'Open success'
               })
@@ -157,7 +157,7 @@ const Home = (props: Props) => {
 
           <Button
             color='default'
-            onClick={() =>
+            onPress={() =>
               Alert.question({
                 content: 'Open Question',
                 color: 'default'
