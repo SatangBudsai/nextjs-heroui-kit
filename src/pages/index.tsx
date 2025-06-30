@@ -1,243 +1,418 @@
-import { useTheme } from 'next-themes'
-import RootLayout from '@/layouts/root-layout'
 import MainLayout from '@/layouts/main-layout'
-import { DateRange } from 'react-day-picker'
-import Alert from '@/components/alert'
-import { Button, Input, Image, Spacer } from '@heroui/react'
-import DatePicker from '@/components/date-picker'
-import DateMultiplePicker from '@/components/date-multiple-picker'
-import DateRangePicker from '@/components/date-range-picker'
-import exampleSubService from '@/api/manual/sub-service/example'
-import { Controller, useForm } from 'react-hook-form'
-import { SlideshowLightbox } from 'lightbox.js-react'
-import { useTranslation } from 'react-i18next'
-import UploadMultipleFile from '@/components/upload-multiple-file'
-import UploadSingleFile from '@/components/upload-singer-file'
-import useLoadingScreen from '@/hooks/useLoadingScreen'
-import Icon from '@/components/icon'
-import { Fragment, ReactElement, useState } from 'react'
-
-type ItemsType = {
-  pathURL: string
-  fileName: string
-}
-
-const items: ItemsType[] = [
-  {
-    pathURL: 'https://pixlr.com/images/generator/text-to-image.webp',
-    fileName: 'text-to-image.webp'
-  },
-  {
-    pathURL: 'https://fps.cdnpk.net/images/home/subhome-ai.webp?w=649&h=649',
-    fileName: 'subhome-ai.webp'
-  },
-  {
-    pathURL:
-      'https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg',
-    fileName: 'abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg'
-  }
-]
-
-const productsCafe = [
-  {
-    id: 1,
-    name: 'Macarons',
-    href: '#',
-    imageSrc:
-      'https://images.pexels.com/photos/808941/pexels-photo-808941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    imageAlt: 'Macarons',
-    price: '$6',
-    color: 'Black'
-  },
-  {
-    id: 2,
-    name: 'Pancakes',
-    href: '#',
-    imageSrc:
-      'https://images.pexels.com/photos/2280545/pexels-photo-2280545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    imageAlt: 'Pancakes',
-    price: '$4',
-    color: 'White'
-  },
-  {
-    id: 3,
-    name: 'Macaron Box',
-    href: '#',
-    imageSrc:
-      'https://images.pexels.com/photos/1346345/pexels-photo-1346345.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    imageAlt: 'Pink macarons.',
-    price: '$7',
-    color: 'Navy'
-  }
-]
+import { Fragment, ReactElement, useEffect, useRef, useState } from 'react'
+import { Icon } from '@iconify/react'
 
 type Props = {}
 
 const Home = (props: Props) => {
-  const { t } = useTranslation()
-  const loadingScreen = useLoadingScreen()
-  const { theme, setTheme } = useTheme()
-  const [date, setDate] = useState<Date | undefined>()
-  const [arrDate, setArrDate] = useState<Date[] | undefined>()
-  const [rangeDate, setRangeDate] = useState<DateRange | undefined>()
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const pcRef = useRef<RTCPeerConnection | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [isConnected, setIsConnected] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
 
-  const getApi = async () => {
-    loadingScreen.start({ key: 'home' })
-    exampleSubService.getExample()
-    loadingScreen.stop({ key: 'home' })
+  const webrtcUrl = "webrtc://192.168.2.41/live/teststream"
+
+  useEffect(() => {
+    const connectWebRTC = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+
+        if (!videoRef.current) return
+
+        // สร้าง RTCPeerConnection
+        const pc = new RTCPeerConnection({
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' }
+          ]
+        })
+
+        pcRef.current = pc
+
+        // รับ stream จาก WebRTC
+        pc.ontrack = (event) => {
+          console.log('Received remote stream:', event.streams[0])
+          if (videoRef.current && event.streams[0]) {
+            videoRef.current.srcObject = event.streams[0]
+            setIsConnected(true)
+            setIsLoading(false)
+          }
+        }
+
+        pc.oniceconnectionstatechange = () => {
+          console.log('ICE connection state:', pc.iceConnectionState)
+          switch (pc.iceConnectionState) {
+            case 'connected':
+            case 'completed':
+              setIsConnected(true)
+              setIsLoading(false)
+              break
+            case 'failed':
+            case 'disconnected':
+              setError('การเชื่อมต่อ WebRTC ล้มเหลว')
+              setIsConnected(false)
+              setIsLoading(false)
+              break
+            case 'checking':
+            case 'new':
+              setIsLoading(true)
+              break
+          }
+        }
+
+        pc.addEventListener('error', (event) => {
+          console.error('WebRTC error:', event)
+          setError('เกิดข้อผิดพลาดในการเชื่อมต่อ WebRTC')
+          setIsLoading(false)
+        })
+
+        // สำหรับ WebRTC server ที่รองรับ WHEP (WebRTC-HTTP Egress Protocol)
+        // หรือใช้ WebSocket signaling
+        await connectToWebRTCServer(pc)
+
+      } catch (err) {
+        console.error('WebRTC initialization error:', err)
+        setError('ไม่สามารถเชื่อมต่อ WebRTC ได้: ' + (err as Error).message)
+        setIsLoading(false)
+      }
+    }
+
+    const connectToWebRTCServer = async (pc: RTCPeerConnection) => {
+      try {
+        // วิธีที่ 1: ลอง SRS WebRTC API
+        await connectViaSRS(pc)
+      } catch (srsError) {
+        console.log('SRS failed, trying generic WebRTC API:', srsError)
+
+        try {
+          // วิธีที่ 2: ลอง Generic WebRTC API
+          await connectViaGenericAPI(pc)
+        } catch (genericError) {
+          console.log('Generic API failed, trying simple HTTP API:', genericError)
+
+          try {
+            // วิธีที่ 3: ลอง Simple HTTP API
+            await connectViaSimpleHTTP(pc)
+          } catch (httpError) {
+            console.log('All methods failed:', httpError)
+            throw new Error('ไม่สามารถเชื่อมต่อ WebRTC server ได้ กรุณาตรวจสอบการตั้งค่า server')
+          }
+        }
+      }
+    }
+
+    const connectViaSRS = async (pc: RTCPeerConnection) => {
+      // SRS (Simple Realtime Server) WebRTC API
+      const srsApiUrl = 'http://192.168.2.41:1985/rtc/v1/play/'
+
+      const offer = await pc.createOffer({
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true
+      })
+
+      await pc.setLocalDescription(offer)
+
+      const response = await fetch(srsApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          api: srsApiUrl,
+          streamurl: 'webrtc://192.168.2.41/live/teststream',
+          sdp: offer.sdp
+        })
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        if (result.sdp) {
+          await pc.setRemoteDescription({
+            type: 'answer',
+            sdp: result.sdp
+          })
+          return
+        }
+      }
+
+      throw new Error(`SRS API failed: ${response.status}`)
+    }
+
+    const connectViaGenericAPI = async (pc: RTCPeerConnection) => {
+      // ลอง API endpoints ทั่วไป
+      const endpoints = [
+        'http://192.168.2.41:8080/api/webrtc/play',
+        'http://192.168.2.41:8080/rtc/play',
+        'http://192.168.2.41:8080/webrtc/play',
+        'http://192.168.2.41:8080/play/webrtc'
+      ]
+
+      const offer = await pc.createOffer({
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true
+      })
+
+      await pc.setLocalDescription(offer)
+
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              streamurl: 'webrtc://192.168.2.41/live/teststream',
+              stream: 'teststream',
+              app: 'live',
+              sdp: offer.sdp,
+              type: 'offer'
+            })
+          })
+
+          if (response.ok) {
+            const result = await response.json()
+            if (result.sdp || result.answer) {
+              await pc.setRemoteDescription({
+                type: 'answer',
+                sdp: result.sdp || result.answer
+              })
+              return
+            }
+          }
+        } catch (err) {
+          console.log(`Endpoint ${endpoint} failed:`, err)
+        }
+      }
+
+      throw new Error('All generic API endpoints failed')
+    }
+
+    const connectViaSimpleHTTP = async (pc: RTCPeerConnection) => {
+      // ลองใช้ HTTP API แบบง่าย
+      const simpleEndpoints = [
+        'http://192.168.2.41:8080/rtc',
+        'http://192.168.2.41:8080/webrtc',
+        'http://192.168.2.41:1985/rtc/v1/play/',
+        'http://192.168.2.41:8080/api/rtc'
+      ]
+
+      const offer = await pc.createOffer({
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true
+      })
+
+      await pc.setLocalDescription(offer)
+
+      for (const endpoint of simpleEndpoints) {
+        try {
+          // ลอง POST แบบ JSON
+          let response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              sdp: offer.sdp,
+              stream: 'teststream'
+            })
+          })
+
+          if (!response.ok) {
+            // ลอง POST แบบ SDP
+            response = await fetch(endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/sdp',
+              },
+              body: offer.sdp
+            })
+          }
+
+          if (response.ok) {
+            const contentType = response.headers.get('content-type')
+            let result
+
+            if (contentType?.includes('application/json')) {
+              result = await response.json()
+              if (result.sdp || result.answer) {
+                await pc.setRemoteDescription({
+                  type: 'answer',
+                  sdp: result.sdp || result.answer
+                })
+                return
+              }
+            } else {
+              const sdp = await response.text()
+              if (sdp && sdp.includes('v=0')) {
+                await pc.setRemoteDescription({
+                  type: 'answer',
+                  sdp: sdp
+                })
+                return
+              }
+            }
+          }
+        } catch (err) {
+          console.log(`Simple HTTP endpoint ${endpoint} failed:`, err)
+        }
+      }
+
+      throw new Error('All simple HTTP endpoints failed')
+    }
+
+    connectWebRTC()
+
+    return () => {
+      // Cleanup
+      if (pcRef.current) {
+        pcRef.current.close()
+        pcRef.current = null
+      }
+    }
+  }, [])
+
+  const handleReconnect = () => {
+    if (pcRef.current) {
+      pcRef.current.close()
+    }
+    window.location.reload()
   }
-
-  const [uploadFiles, setUploadFiles] = useState<File[]>([])
-  const [defaultFiles, setDefaultFiles] = useState<ItemsType[]>([])
 
   return (
     <Fragment>
-      <div className='flex flex-col gap-5'>
-        <div className='flex flex-wrap items-center justify-center gap-5'>Template NextJs and NextUI</div>
-        <div className='flex justify-center'>{t('common.hello')}</div>
-        <Icon icon='custom:file-ai' width={30} />
-        <Icon icon='custom:file-dll' width={30} />
-        <Icon icon='custom:file-bmp' width={30} />
-        <Button variant='flat' color='primary' onClick={getApi}>
-          Call API
-        </Button>
-        <div className='grid grid-cols-6 gap-5 max-md:grid-cols-2'>
-          <Button
-            color='primary'
-            onPress={() =>
-              Alert.message({
-                content: 'Open Message',
-                noButton: true
-              })
-            }>
-            Open Message
-          </Button>
+      <div className="container mx-auto p-4">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-2xl font-bold mb-4">WebRTC Live Stream</h1>
 
-          <Button
-            color='secondary'
-            onPress={() =>
-              Alert.message({
-                content: 'Open Message',
-                noButton: true,
-                color: 'secondary'
-              })
-            }>
-            Open Message
-          </Button>
+          <div className="bg-black rounded-lg overflow-hidden shadow-lg relative">
+            <div className="relative aspect-video">
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                    <div className="text-white">กำลังเชื่อมต่อ WebRTC...</div>
+                  </div>
+                </div>
+              )}
 
-          <Button
-            color='danger'
-            onClick={() =>
-              Alert.error({
-                content: 'Open Error'
-              })
-            }>
-            Open Error
-          </Button>
+              {error && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
+                  <div className="text-center text-red-500 p-4">
+                    <div className="text-xl mb-2">⚠️</div>
+                    <div className="mb-4">{error}</div>
+                    <button
+                      onClick={handleReconnect}
+                      className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                    >
+                      ลองใหม่
+                    </button>
+                  </div>
+                </div>
+              )}
 
-          <Button
-            color='warning'
-            onPress={() =>
-              Alert.warning({
-                content: 'Open warning'
-              })
-            }>
-            Open warning
-          </Button>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                controls={false}
+                className="w-full h-full object-cover"
+                onLoadStart={() => console.log('Video loading started')}
+                onCanPlay={() => {
+                  console.log('Video can play')
+                  setIsLoading(false)
+                }}
+                onError={(e) => {
+                  console.error('Video error:', e)
+                  setError('ไม่สามารถเล่นวีดีโอได้')
+                }}
+              />
 
-          <Button
-            color='success'
-            onPress={() =>
-              Alert.success({
-                content: 'Open success'
-              })
-            }>
-            Open success
-          </Button>
+              {isConnected && (
+                <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium z-20">
+                  🔴 LIVE
+                </div>
+              )}
+            </div>
+          </div>
 
-          <Button
-            color='default'
-            onPress={() =>
-              Alert.question({
-                content: 'Open Question',
-                color: 'default'
-              })
-            }>
-            Open Question
-          </Button>
-        </div>
-        <div className='grid grid-cols-2 gap-5 max-sm:grid-cols-1'>
-          <DatePicker
-            mode='single'
-            label='DatePicker'
-            placeholder='Picker Date'
-            labelPlacement='inside'
-            variant='bordered'
-            selected={date}
-            onSelect={setDate}
-            defaultMonth={date}
-          />
-          <DateMultiplePicker
-            mode='multiple'
-            label='DateMultiplePicker'
-            placeholder='DateMultiplePicker'
-            variant='bordered'
-            captionLayout='dropdown-buttons'
-            selected={arrDate}
-            onSelect={setArrDate}
-            defaultMonth={arrDate ? arrDate[0] : new Date()}
-          />
-          <DateRangePicker
-            mode='range'
-            label='DateRangePicker'
-            placeholder='DateMultiplePicker'
-            labelPlacement='inside'
-            variant='bordered'
-            captionLayout='dropdown-buttons'
-            selected={rangeDate}
-            onSelect={setRangeDate}
-            numberOfMonths={2}
-            defaultMonth={rangeDate?.from}
-          />
-          <Input type='text' label='Name' placeholder='Enter Name' variant='bordered' />
-          <Input type='number' label='Number' placeholder='Enter Number' variant='bordered' />
-          <Input type='email' label='Email' placeholder='Enter Email' variant='bordered' />
+          <div className="mt-4 space-y-2">
+            <div className="text-sm text-gray-600">
+              <p><strong>Stream URL:</strong> {webrtcUrl}</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${
+                  isConnected ? 'bg-green-500' : isLoading ? 'bg-yellow-500' : 'bg-red-500'
+                }`}></div>
+                <span className="text-sm">
+                  {isConnected ? 'เชื่อมต่อแล้ว' : isLoading ? 'กำลังเชื่อมต่อ...' : 'ไม่ได้เชื่อมต่อ'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ปุ่มควบคุม */}
+          <div className="mt-4 flex gap-2">
+            <button
+              onClick={handleReconnect}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              disabled={isLoading}
+            >
+              {isLoading ? 'กำลังเชื่อมต่อ...' : 'เชื่อมต่อใหม่'}
+            </button>
+
+            <button
+              onClick={() => {
+                if (videoRef.current) {
+                  if (videoRef.current.requestFullscreen) {
+                    videoRef.current.requestFullscreen()
+                  }
+                }
+              }}
+              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+              disabled={!isConnected}
+            >
+              เต็มจอ
+            </button>
+
+            <button
+              onClick={() => {
+                if (videoRef.current) {
+                  setIsMuted(!isMuted)
+                  videoRef.current.muted = !videoRef.current.muted
+                }
+              }}
+              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+              disabled={!isConnected}
+            >
+              {isMuted ? '🔇' : '🔊'}
+            </button>
+          </div>
+
+          {/* คำแนะนำ */}
+          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+            <h3 className="font-medium mb-2">คำแนะนำการตั้งค่า:</h3>
+            <ul className="text-sm space-y-1 text-gray-700">
+              <li>• ตรวจสอบว่า WebRTC server รองรับ WHEP หรือ WebSocket signaling</li>
+              <li>• ตรวจสอบการตั้งค่า CORS ของ server</li>
+              <li>• ใช้ HTTPS ใน production environment</li>
+              <li>• ตรวจสอบ firewall และ port ที่เปิดให้</li>
+            </ul>
+          </div>
         </div>
       </div>
-
-      <Spacer y={5} />
-      <SlideshowLightbox
-        lightboxIdentifier='lbox1'
-        showThumbnails={true}
-        images={productsCafe}
-        modalClose={'clickOutside'}
-        onOpen={() => {
-          document.body.classList.add('overflow-y-hidden')
-        }}
-        onClose={() => {
-          document.body.classList.remove('overflow-y-hidden')
-        }}
-        className='grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'>
-        {productsCafe.map(product => (
-          <div key={product.id}>
-            <div className='aspect-w-1 aspect-h-1 xl:aspect-w-7 xl:aspect-h-8 h-48 overflow-hidden rounded-lg bg-gray-200'>
-              <Image
-                src={product.imageSrc}
-                alt={product.imageAlt}
-                data-lightboxjs='lbox1'
-                className='demoImg h-full w-full object-cover group-hover:opacity-75'
-              />
-            </div>
-            <h3 className='mt-4 text-sm text-gray-700'>{product.name}</h3>
-            <p className='mt-1 text-lg font-medium text-gray-900'>{product.price}</p>
-          </div>
-        ))}
-      </SlideshowLightbox>
     </Fragment>
   )
 }
 
 export default Home
+
 Home.auth = false
 
 Home.getLayout = (page: ReactElement) => {

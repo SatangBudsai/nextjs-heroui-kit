@@ -2,11 +2,11 @@ import MainLayout from '@/layouts/main-layout'
 import RootLayout from '@/layouts/root-layout'
 import React, { Fragment, ReactElement } from 'react'
 import { Select, SelectItem, Spacer } from '@heroui/react'
-import BarChart from '@/view/dashboard/BarChart'
-import Department from '@/view/dashboard/Department'
-import PieChart from '@/view/dashboard/PieChart'
-import CarbonUse from '@/view/dashboard/CarbonUse'
-import CarbonReduce from '@/view/dashboard/CarbonReduce'
+import PieChart from '@/views/dashboard/PieChart'
+import BarChart from '@/views/dashboard/BarChart'
+import Department from '@/views/dashboard/Department'
+import CarbonUse from '@/views/dashboard/CarbonUse'
+import CarbonReduce from '@/views/dashboard/CarbonReduce'
 
 type Props = {}
 
