@@ -1,4 +1,4 @@
-import { cn } from "@heroui/react"
+import { cn } from '@heroui/react'
 import React, { ReactNode } from 'react'
 
 type Props = {
@@ -14,7 +14,7 @@ const Container = (props: Props) => {
   return (
     <section className={cn(isBackground && 'bg-glass', heightScreen && 'flex min-h-[100dvh] flex-col justify-center')}>
       <div className='flex justify-center'>
-        <div className={cn('w-full max-w-4xl max-xl:px-5 lg:max-w-5xl xl:max-w-6xl', className)}>{children}</div>
+        <div className={cn('w-full px-4 lg:max-w-7xl', className)}>{children}</div>
       </div>
     </section>
   )
