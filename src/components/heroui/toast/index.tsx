@@ -1,18 +1,14 @@
 // Note: Toast component may not be available in current @heroui/react version
 // This is a placeholder wrapper for when it becomes available
 
-import { Fragment } from 'react'
+import React from 'react'
 // import { Toast as ToastHeroUI } from '@heroui/react'
 
-// Placeholder component - uncomment when Toast is available  
+// Placeholder component - uncomment when Toast is available
 // type ToastProps = React.ComponentProps<typeof ToastHeroUI> & {}
 
 // const Toast = ({ ...props }: ToastProps) => {
-//   return (
-//     <Fragment>
-//       <ToastHeroUI {...props} />
-//     </Fragment>
-//   )
+//   return <ToastHeroUI {...props} />
 // }
 
 // Temporary placeholder
@@ -21,13 +17,7 @@ type ToastProps = {
 } & React.HTMLAttributes<HTMLDivElement>
 
 const Toast = ({ children, ...props }: ToastProps) => {
-  return (
-    <Fragment>
-      <div {...props}>
-        {children}
-      </div>
-    </Fragment>
-  )
+  return <div {...props}>{children}</div>
 }
 
 export default Toast

@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { forwardRef } from 'react'
 import { Input as InputHeroUI } from '@heroui/react'
 import Icon from '@/components/icon'
 
@@ -7,29 +7,29 @@ type InputProps = React.ComponentProps<typeof InputHeroUI> & {
   startIcon?: string
 }
 
-const Input = (props: InputProps) => {
+const Input = forwardRef<React.ElementRef<typeof InputHeroUI>, InputProps>((props, ref) => {
   const { errorMessage, startIcon, ...rest } = props
 
   return (
-    <Fragment>
-      <div>
-        <InputHeroUI
-          startContent={
-            startIcon ? (
-              <Icon
-                icon={startIcon}
-                width={18}
-                height={18}
-                className={!!errorMessage || props.isInvalid ? 'text-danger' : 'text-primary'}
-              />
-            ) : null
-          }
-          {...rest}
-        />
-        {errorMessage && <p className='-mb-2 ml-4 mt-1 text-xs text-danger'>{errorMessage}</p>}
-      </div>
-    </Fragment>
+    <div>
+      <InputHeroUI
+        ref={ref}
+        startContent={
+          startIcon ? (
+            <Icon
+              icon={startIcon}
+              width={18}
+              height={18}
+              className={!!errorMessage || props.isInvalid ? 'text-danger' : 'text-primary'}
+            />
+          ) : null
+        }
+        {...rest}
+      />
+      {errorMessage && <p className='-mb-2 ml-4 mt-1 text-xs text-danger'>{errorMessage}</p>}
+    </div>
   )
-}
+})
+Input.displayName = 'Input'
 
 export default Input

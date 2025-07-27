@@ -38,26 +38,24 @@ export default function ForgotPasswordModal({ isOpen, onClose, onOpenLogin }: Fo
   const [isSuccess, setIsSuccess] = React.useState(false)
 
   const onSubmit: SubmitHandler<forgotPasswordloginRequestType> = async data => {
-    try {
-      console.log('Forgot password data:', data)
-
-      // Call actual API
-      const response = await mainService.auth.forgotPassword({
-        email: data.email
-      })
-
-      // Check if the API call was successful
-      if (response.data !== undefined) {
-        console.log('Forgot password email sent:', response.data)
-        setIsSuccess(true)
-      } else {
-        console.error('Failed to send reset email')
-        // You might want to show an error toast here
-      }
-    } catch (error) {
-      console.error('Forgot password error:', error)
-      // You might want to show an error toast here
-    }
+    // try {
+    //   console.log('Forgot password data:', data)
+    //   // Call actual API
+    //   const response = await mainService.auth.forgotPassword({
+    //     email: data.email
+    //   })
+    //   // Check if the API call was successful
+    //   if (response.data !== undefined) {
+    //     console.log('Forgot password email sent:', response.data)
+    //     setIsSuccess(true)
+    //   } else {
+    //     console.error('Failed to send reset email')
+    //     // You might want to show an error toast here
+    //   }
+    // } catch (error) {
+    //   console.error('Forgot password error:', error)
+    //   // You might want to show an error toast here
+    // }
   }
 
   const handleClose = () => {

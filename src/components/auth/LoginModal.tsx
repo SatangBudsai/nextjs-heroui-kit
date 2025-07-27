@@ -7,14 +7,13 @@ import NextLink from 'next/link'
 import Icon from '@/components/icon'
 import PasswordVisibilityToggle from '@/components/password-visibility-toggle'
 import { loginRequestType } from '@/types/auth'
-import { ApiResponseTypeResLogin } from '@/api/generated/main-service/apiGenerated'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import { mainService } from '@/api/generated/main-service'
 import Cookies from 'js-cookie'
-import { userDataAction } from '@/store/reducers/user-data'
+// import { userDataAction } from '@/store/reducers/user-data'
 import { useDispatch } from 'react-redux'
 
 const schema = yup.object({
@@ -45,38 +44,32 @@ export default function LoginModal({ isOpen, onClose, onOpenRegister, onOpenForg
   const [showPassword, setShowPassword] = React.useState(false)
 
   const onSubmit: SubmitHandler<loginRequestType> = async data => {
-    try {
-      console.log('Login data:', data)
-
-      const response = await mainService.auth.login({
-        username: data.username,
-        password: data.password
-      })
-
-      if (response.data && response.data.user && response.data.token) {
-        const { user, token } = response.data
-
-        Cookies.set('token', token, { expires: 7, secure: true })
-
-        const userData = {
-          id: user.learnerId,
-          email: data.username,
-          name: user.name,
-          lastname: user.lastname,
-          phone: user.phone,
-          avatar: null,
-          isLoggedIn: true
-        }
-
-        dispatch(userDataAction.updateState(userData))
-
-        onClose()
-      } else {
-        console.error('Login failed: Invalid response structure')
-      }
-    } catch (error) {
-      console.error('Login error:', error)
-    }
+    // try {
+    //   console.log('Login data:', data)
+    //   const response = await mainService.auth.login({
+    //     username: data.username,
+    //     password: data.password
+    //   })
+    //   if (response.data && response.data.user && response.data.token) {
+    //     const { user, token } = response.data
+    //     Cookies.set('token', token, { expires: 7, secure: true })
+    //     const userData = {
+    //       id: user.learnerId,
+    //       email: data.username,
+    //       name: user.name,
+    //       lastname: user.lastname,
+    //       phone: user.phone,
+    //       avatar: null,
+    //       isLoggedIn: true
+    //     }
+    //     dispatch(userDataAction.updateState(userData))
+    //     onClose()
+    //   } else {
+    //     console.error('Login failed: Invalid response structure')
+    //   }
+    // } catch (error) {
+    //   console.error('Login error:', error)
+    // }
   }
 
   const handleClose = () => {

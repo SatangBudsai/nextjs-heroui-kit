@@ -1,54 +1,40 @@
-import { Fragment } from 'react'
-import { Modal as ModalHeroUI, ModalContent as ModalContentHeroUI, ModalHeader as ModalHeaderHeroUI, ModalBody as ModalBodyHeroUI, ModalFooter as ModalFooterHeroUI } from '@heroui/react'
+import React from 'react'
+import {
+  Modal as ModalHeroUI,
+  ModalContent as ModalContentHeroUI,
+  ModalHeader as ModalHeaderHeroUI,
+  ModalBody as ModalBodyHeroUI,
+  ModalFooter as ModalFooterHeroUI
+} from '@heroui/react'
 
 type ModalProps = React.ComponentProps<typeof ModalHeroUI> & {}
 
 const Modal = ({ ...props }: ModalProps) => {
-  return (
-    <Fragment>
-      <ModalHeroUI {...props} />
-    </Fragment>
-  )
+  return <ModalHeroUI {...props} />
 }
 
 type ModalContentProps = React.ComponentProps<typeof ModalContentHeroUI> & {}
 
 const ModalContent = ({ ...props }: ModalContentProps) => {
-  return (
-    <Fragment>
-      <ModalContentHeroUI {...props} />
-    </Fragment>
-  )
+  return <ModalContentHeroUI {...props} />
 }
 
 type ModalHeaderProps = React.ComponentProps<typeof ModalHeaderHeroUI> & {}
 
 const ModalHeader = ({ ...props }: ModalHeaderProps) => {
-  return (
-    <Fragment>
-      <ModalHeaderHeroUI {...props} />
-    </Fragment>
-  )
+  return <ModalHeaderHeroUI {...props} />
 }
 
 type ModalBodyProps = React.ComponentProps<typeof ModalBodyHeroUI> & {}
 
 const ModalBody = ({ ...props }: ModalBodyProps) => {
-  return (
-    <Fragment>
-      <ModalBodyHeroUI {...props} />
-    </Fragment>
-  )
+  return <ModalBodyHeroUI {...props} />
 }
 
 type ModalFooterProps = React.ComponentProps<typeof ModalFooterHeroUI> & {}
 
 const ModalFooter = ({ ...props }: ModalFooterProps) => {
-  return (
-    <Fragment>
-      <ModalFooterHeroUI {...props} />
-    </Fragment>
-  )
+  return <ModalFooterHeroUI {...props} />
 }
 
 export default Modal

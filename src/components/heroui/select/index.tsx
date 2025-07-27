@@ -1,34 +1,27 @@
-import { Fragment } from 'react'
-import { Select as SelectHeroUI, SelectItem as SelectItemHeroUI, SelectSection as SelectSectionHeroUI } from '@heroui/react'
+import { forwardRef } from 'react'
+import {
+  Select as SelectHeroUI,
+  SelectItem as SelectItemHeroUI,
+  SelectSection as SelectSectionHeroUI
+} from '@heroui/react'
 
 type SelectProps = React.ComponentProps<typeof SelectHeroUI> & {}
 
-const Select = ({ ...props }: SelectProps) => {
-  return (
-    <Fragment>
-      <SelectHeroUI {...props} />
-    </Fragment>
-  )
-}
+const Select = forwardRef<React.ElementRef<typeof SelectHeroUI>, SelectProps>((props, ref) => {
+  return <SelectHeroUI ref={ref} {...props} />
+})
+Select.displayName = 'Select'
 
 type SelectItemProps = React.ComponentProps<typeof SelectItemHeroUI> & {}
 
 const SelectItem = ({ ...props }: SelectItemProps) => {
-  return (
-    <Fragment>
-      <SelectItemHeroUI {...props} />
-    </Fragment>
-  )
+  return <SelectItemHeroUI {...props} />
 }
 
 type SelectSectionProps = React.ComponentProps<typeof SelectSectionHeroUI> & {}
 
 const SelectSection = ({ ...props }: SelectSectionProps) => {
-  return (
-    <Fragment>
-      <SelectSectionHeroUI {...props} />
-    </Fragment>
-  )
+  return <SelectSectionHeroUI {...props} />
 }
 
 export default Select

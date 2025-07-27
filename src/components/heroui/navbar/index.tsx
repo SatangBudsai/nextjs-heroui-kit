@@ -1,74 +1,55 @@
-import { Fragment } from 'react'
-import { Navbar as NavbarHeroUI, NavbarBrand as NavbarBrandHeroUI, NavbarContent as NavbarContentHeroUI, NavbarItem as NavbarItemHeroUI, NavbarMenuToggle as NavbarMenuToggleHeroUI, NavbarMenu as NavbarMenuHeroUI, NavbarMenuItem as NavbarMenuItemHeroUI } from '@heroui/react'
+import { forwardRef } from 'react'
+import {
+  Navbar as NavbarHeroUI,
+  NavbarBrand as NavbarBrandHeroUI,
+  NavbarContent as NavbarContentHeroUI,
+  NavbarItem as NavbarItemHeroUI,
+  NavbarMenuToggle as NavbarMenuToggleHeroUI,
+  NavbarMenu as NavbarMenuHeroUI,
+  NavbarMenuItem as NavbarMenuItemHeroUI
+} from '@heroui/react'
 
 type NavbarProps = React.ComponentProps<typeof NavbarHeroUI> & {}
 
-const Navbar = ({ ...props }: NavbarProps) => {
-  return (
-    <Fragment>
-      <NavbarHeroUI {...props} />
-    </Fragment>
-  )
-}
+const Navbar = forwardRef<React.ElementRef<typeof NavbarHeroUI>, NavbarProps>((props, ref) => {
+  return <NavbarHeroUI ref={ref} {...props} />
+})
+Navbar.displayName = 'Navbar'
 
 type NavbarBrandProps = React.ComponentProps<typeof NavbarBrandHeroUI> & {}
 
 const NavbarBrand = ({ ...props }: NavbarBrandProps) => {
-  return (
-    <Fragment>
-      <NavbarBrandHeroUI {...props} />
-    </Fragment>
-  )
+  return <NavbarBrandHeroUI {...props} />
 }
 
 type NavbarContentProps = React.ComponentProps<typeof NavbarContentHeroUI> & {}
 
 const NavbarContent = ({ ...props }: NavbarContentProps) => {
-  return (
-    <Fragment>
-      <NavbarContentHeroUI {...props} />
-    </Fragment>
-  )
+  return <NavbarContentHeroUI {...props} />
 }
 
 type NavbarItemProps = React.ComponentProps<typeof NavbarItemHeroUI> & {}
 
 const NavbarItem = ({ ...props }: NavbarItemProps) => {
-  return (
-    <Fragment>
-      <NavbarItemHeroUI {...props} />
-    </Fragment>
-  )
+  return <NavbarItemHeroUI {...props} />
 }
 
 type NavbarMenuToggleProps = React.ComponentProps<typeof NavbarMenuToggleHeroUI> & {}
 
 const NavbarMenuToggle = ({ ...props }: NavbarMenuToggleProps) => {
-  return (
-    <Fragment>
-      <NavbarMenuToggleHeroUI {...props} />
-    </Fragment>
-  )
+  return <NavbarMenuToggleHeroUI {...props} />
 }
 
 type NavbarMenuProps = React.ComponentProps<typeof NavbarMenuHeroUI> & {}
 
 const NavbarMenu = ({ ...props }: NavbarMenuProps) => {
-  return (
-    <Fragment>
-      <NavbarMenuHeroUI {...props} />
-    </Fragment>
-  )
+  return <NavbarMenuHeroUI {...props} />
 }
 
 type NavbarMenuItemProps = React.ComponentProps<typeof NavbarMenuItemHeroUI> & {}
 
 const NavbarMenuItem = ({ ...props }: NavbarMenuItemProps) => {
-  return (
-    <Fragment>
-      <NavbarMenuItemHeroUI {...props} />
-    </Fragment>
-  )
+  return <NavbarMenuItemHeroUI {...props} />
 }
 
 export default Navbar

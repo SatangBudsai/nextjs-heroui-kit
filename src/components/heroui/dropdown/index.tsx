@@ -1,54 +1,41 @@
-import { Fragment } from 'react'
-import { Dropdown as DropdownHeroUI, DropdownTrigger as DropdownTriggerHeroUI, DropdownMenu as DropdownMenuHeroUI, DropdownItem as DropdownItemHeroUI, DropdownSection as DropdownSectionHeroUI } from '@heroui/react'
+import { forwardRef } from 'react'
+import {
+  Dropdown as DropdownHeroUI,
+  DropdownTrigger as DropdownTriggerHeroUI,
+  DropdownMenu as DropdownMenuHeroUI,
+  DropdownItem as DropdownItemHeroUI,
+  DropdownSection as DropdownSectionHeroUI
+} from '@heroui/react'
 
 type DropdownProps = React.ComponentProps<typeof DropdownHeroUI> & {}
 
 const Dropdown = ({ ...props }: DropdownProps) => {
-  return (
-    <Fragment>
-      <DropdownHeroUI {...props} />
-    </Fragment>
-  )
+  return <DropdownHeroUI {...props} />
 }
 
 type DropdownTriggerProps = React.ComponentProps<typeof DropdownTriggerHeroUI> & {}
 
 const DropdownTrigger = ({ ...props }: DropdownTriggerProps) => {
-  return (
-    <Fragment>
-      <DropdownTriggerHeroUI {...props} />
-    </Fragment>
-  )
+  return <DropdownTriggerHeroUI {...props} />
 }
 
 type DropdownMenuProps = React.ComponentProps<typeof DropdownMenuHeroUI> & {}
 
-const DropdownMenu = ({ ...props }: DropdownMenuProps) => {
-  return (
-    <Fragment>
-      <DropdownMenuHeroUI {...props} />
-    </Fragment>
-  )
-}
+const DropdownMenu = forwardRef<React.ElementRef<typeof DropdownMenuHeroUI>, DropdownMenuProps>((props, ref) => {
+  return <DropdownMenuHeroUI ref={ref} {...props} />
+})
+DropdownMenu.displayName = 'DropdownMenu'
 
 type DropdownItemProps = React.ComponentProps<typeof DropdownItemHeroUI> & {}
 
 const DropdownItem = ({ ...props }: DropdownItemProps) => {
-  return (
-    <Fragment>
-      <DropdownItemHeroUI {...props} />
-    </Fragment>
-  )
+  return <DropdownItemHeroUI {...props} />
 }
 
 type DropdownSectionProps = React.ComponentProps<typeof DropdownSectionHeroUI> & {}
 
 const DropdownSection = ({ ...props }: DropdownSectionProps) => {
-  return (
-    <Fragment>
-      <DropdownSectionHeroUI {...props} />
-    </Fragment>
-  )
+  return <DropdownSectionHeroUI {...props} />
 }
 
 export default Dropdown

@@ -1,24 +1,16 @@
-import { Fragment } from 'react'
+import React from 'react'
 import { Accordion as AccordionHeroUI, AccordionItem as AccordionItemHeroUI } from '@heroui/react'
 
 type AccordionProps = React.ComponentProps<typeof AccordionHeroUI> & {}
 
 const Accordion = ({ ...props }: AccordionProps) => {
-  return (
-    <Fragment>
-      <AccordionHeroUI {...props} />
-    </Fragment>
-  )
+  return <AccordionHeroUI {...props} />
 }
 
 type AccordionItemProps = React.ComponentProps<typeof AccordionItemHeroUI> & {}
 
 const AccordionItem = ({ ...props }: AccordionItemProps) => {
-  return (
-    <Fragment>
-      <AccordionItemHeroUI {...props} />
-    </Fragment>
-  )
+  return <AccordionItemHeroUI {...props} />
 }
 
 export default Accordion

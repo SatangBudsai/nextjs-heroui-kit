@@ -1,34 +1,27 @@
-import { Fragment } from 'react'
-import { Listbox as ListboxHeroUI, ListboxItem as ListboxItemHeroUI, ListboxSection as ListboxSectionHeroUI } from '@heroui/react'
+import { forwardRef } from 'react'
+import {
+  Listbox as ListboxHeroUI,
+  ListboxItem as ListboxItemHeroUI,
+  ListboxSection as ListboxSectionHeroUI
+} from '@heroui/react'
 
 type ListboxProps = React.ComponentProps<typeof ListboxHeroUI> & {}
 
-const Listbox = ({ ...props }: ListboxProps) => {
-  return (
-    <Fragment>
-      <ListboxHeroUI {...props} />
-    </Fragment>
-  )
-}
+const Listbox = forwardRef<React.ElementRef<typeof ListboxHeroUI>, ListboxProps>((props, ref) => {
+  return <ListboxHeroUI ref={ref} {...props} />
+})
+Listbox.displayName = 'Listbox'
 
 type ListboxItemProps = React.ComponentProps<typeof ListboxItemHeroUI> & {}
 
 const ListboxItem = ({ ...props }: ListboxItemProps) => {
-  return (
-    <Fragment>
-      <ListboxItemHeroUI {...props} />
-    </Fragment>
-  )
+  return <ListboxItemHeroUI {...props} />
 }
 
 type ListboxSectionProps = React.ComponentProps<typeof ListboxSectionHeroUI> & {}
 
 const ListboxSection = ({ ...props }: ListboxSectionProps) => {
-  return (
-    <Fragment>
-      <ListboxSectionHeroUI {...props} />
-    </Fragment>
-  )
+  return <ListboxSectionHeroUI {...props} />
 }
 
 export default Listbox
