@@ -1,13 +1,13 @@
-import { forwardRef } from 'react'
-import { Input as InputHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Input as InputHeroUI, InputProps as InputPropsHeroUI } from '@heroui/react'
 import Icon from '@/components/icon'
 
-type InputProps = React.ComponentProps<typeof InputHeroUI> & {
+export type InputProps = InputPropsHeroUI & {
   errorMessage?: string
   startIcon?: string
 }
 
-const Input = forwardRef<React.ElementRef<typeof InputHeroUI>, InputProps>((props, ref) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { errorMessage, startIcon, ...rest } = props
 
   return (
@@ -30,6 +30,5 @@ const Input = forwardRef<React.ElementRef<typeof InputHeroUI>, InputProps>((prop
     </div>
   )
 })
-Input.displayName = 'Input'
 
-export default Input
+Input.displayName = 'Input'

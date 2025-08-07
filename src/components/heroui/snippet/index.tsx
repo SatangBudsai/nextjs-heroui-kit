@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Snippet as SnippetHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Snippet as SnippetHeroUI, SnippetProps as SnippetPropsHeroUI } from '@heroui/react'
 
-type SnippetProps = React.ComponentProps<typeof SnippetHeroUI> & {}
+export type SnippetProps = SnippetPropsHeroUI
 
-const Snippet = forwardRef<React.ElementRef<typeof SnippetHeroUI>, SnippetProps>(
-  (props, ref) => {
-    return <SnippetHeroUI ref={ref} {...props} />
-  }
-)
+export const Snippet = forwardRef<HTMLDivElement, SnippetProps>((props, ref) => {
+  return <SnippetHeroUI ref={ref} {...props} />
+})
+
 Snippet.displayName = 'Snippet'
-
-export default Snippet

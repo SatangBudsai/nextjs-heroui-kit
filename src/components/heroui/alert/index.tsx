@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Alert as AlertHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Alert as AlertHeroUI, AlertProps as AlertPropsHeroUI } from '@heroui/react'
 
-type AlertProps = React.ComponentProps<typeof AlertHeroUI> & {}
+export type AlertProps = AlertPropsHeroUI
 
-const Alert = forwardRef<React.ElementRef<typeof AlertHeroUI>, AlertProps>(
-  (props, ref) => {
-    return <AlertHeroUI ref={ref} {...props} />
-  }
-)
+export const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
+  return <AlertHeroUI ref={ref} {...props} />
+})
+
 Alert.displayName = 'Alert'
-
-export default Alert

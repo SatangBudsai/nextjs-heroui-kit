@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Spinner as SpinnerHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Spinner as SpinnerHeroUI, SpinnerProps as SpinnerPropsHeroUI } from '@heroui/react'
 
-type SpinnerProps = React.ComponentProps<typeof SpinnerHeroUI> & {}
+export type SpinnerProps = SpinnerPropsHeroUI
 
-const Spinner = forwardRef<React.ElementRef<typeof SpinnerHeroUI>, SpinnerProps>(
-  (props, ref) => {
-    return <SpinnerHeroUI ref={ref} {...props} />
-  }
-)
+export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>((props, ref) => {
+  return <SpinnerHeroUI ref={ref} {...props} />
+})
+
 Spinner.displayName = 'Spinner'
-
-export default Spinner

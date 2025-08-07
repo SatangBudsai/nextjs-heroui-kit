@@ -1,14 +1,10 @@
-import React from 'react'
-import { InputOtp as InputOtpHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { InputOtp as InputOtpHeroUI, InputOtpProps as InputOtpPropsHeroUI } from '@heroui/react'
 
-type InputOtpProps = React.ComponentProps<typeof InputOtpHeroUI> & {}
+export type InputOtpProps = InputOtpPropsHeroUI
 
-const InputOtp = ({ ...props }: InputOtpProps) => {
-  return (
-    
-      <InputOtpHeroUI {...props} />
-    
-  )
-}
+export const InputOtp = forwardRef<HTMLInputElement, InputOtpProps>((props, ref) => {
+  return <InputOtpHeroUI ref={ref} {...props} />
+})
 
-export default InputOtp
+InputOtp.displayName = 'InputOtp'

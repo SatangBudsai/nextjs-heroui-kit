@@ -1,14 +1,10 @@
-import React from 'react'
-import { Form as FormHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Form as FormHeroUI, FormProps as FormPropsHeroUI } from '@heroui/react'
 
-type FormProps = React.ComponentProps<typeof FormHeroUI> & {}
+export type FormProps = FormPropsHeroUI
 
-const Form = ({ ...props }: FormProps) => {
-  return (
-    
-      <FormHeroUI {...props} />
-    
-  )
-}
+export const Form = forwardRef<HTMLFormElement, FormProps>((props, ref) => {
+  return <FormHeroUI ref={ref} {...props} />
+})
 
-export default Form
+Form.displayName = 'Form'

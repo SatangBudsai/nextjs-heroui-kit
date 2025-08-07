@@ -1,24 +1,23 @@
-import { forwardRef } from 'react'
-import { DatePicker as DatePickerHeroUI, DateRangePicker as DateRangePickerHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  DatePicker as DatePickerHeroUI,
+  DateRangePicker as DateRangePickerHeroUI,
+  DatePickerProps as DatePickerPropsHeroUI,
+  DateRangePickerProps as DateRangePickerPropsHeroUI
+} from '@heroui/react'
 
-type DatePickerProps = React.ComponentProps<typeof DatePickerHeroUI> & {}
+export type DatePickerProps = DatePickerPropsHeroUI
 
-const DatePicker = forwardRef<React.ElementRef<typeof DatePickerHeroUI>, DatePickerProps>(
-  (props, ref) => {
-    return <DatePickerHeroUI ref={ref} {...props} />
-  }
-)
+export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>((props, ref) => {
+  return <DatePickerHeroUI ref={ref} {...props} />
+})
+
 DatePicker.displayName = 'DatePicker'
 
-type DateRangePickerProps = React.ComponentProps<typeof DateRangePickerHeroUI> & {}
+export type DateRangePickerProps = DateRangePickerPropsHeroUI
 
-const DateRangePicker = ({ ...props }: DateRangePickerProps) => {
-  return (
-    
-      <DateRangePickerHeroUI {...props} />
-    
-  )
-}
+export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>((props, ref) => {
+  return <DateRangePickerHeroUI ref={ref} {...props} />
+})
 
-export default DatePicker
-export { DateRangePicker }
+DateRangePicker.displayName = 'DateRangePicker'

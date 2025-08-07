@@ -1,27 +1,48 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import {
   Autocomplete as AutocompleteHeroUI,
   AutocompleteItem as AutocompleteItemHeroUI,
-  AutocompleteSection as AutocompleteSectionHeroUI
+  AutocompleteSection as AutocompleteSectionHeroUI,
+  AutocompleteProps as AutocompletePropsHeroUI,
+  AutocompleteItemProps as AutocompleteItemPropsHeroUI,
+  AutocompleteSectionProps as AutocompleteSectionPropsHeroUI
 } from '@heroui/react'
 
-type AutocompleteProps = React.ComponentProps<typeof AutocompleteHeroUI> & {}
+export type AutocompleteProps = AutocompletePropsHeroUI
 
-const Autocomplete = ({ ...props }: AutocompleteProps) => {
-  return <AutocompleteHeroUI {...props} />
+export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === AutocompleteItem) {
+      return <AutocompleteItemHeroUI key={child.key} {...(child.props as AutocompleteItemPropsHeroUI)} />
+    }
+    if (React.isValidElement(child) && child.type === AutocompleteSection) {
+      return <AutocompleteSectionHeroUI key={child.key} {...(child.props as AutocompleteSectionPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <AutocompleteHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </AutocompleteHeroUI>
+  )
+})
+
+Autocomplete.displayName = 'Autocomplete'
+
+export type AutocompleteItemProps = AutocompleteItemPropsHeroUI
+
+export const AutocompleteItem: React.FC<AutocompleteItemProps> = props => {
+  return null // This component won't render directly
 }
 
-type AutocompleteItemProps = React.ComponentProps<typeof AutocompleteItemHeroUI> & {}
+AutocompleteItem.displayName = 'AutocompleteItem'
 
-const AutocompleteItem = ({ ...props }: AutocompleteItemProps) => {
-  return <AutocompleteItemHeroUI {...props} />
+export type AutocompleteSectionProps = AutocompleteSectionPropsHeroUI
+
+export const AutocompleteSection: React.FC<AutocompleteSectionProps> = props => {
+  return null // This component won't render directly
 }
 
-type AutocompleteSectionProps = React.ComponentProps<typeof AutocompleteSectionHeroUI> & {}
-
-const AutocompleteSection = ({ ...props }: AutocompleteSectionProps) => {
-  return <AutocompleteSectionHeroUI {...props} />
-}
-
-export default Autocomplete
-export { AutocompleteItem, AutocompleteSection }
+AutocompleteSection.displayName = 'AutocompleteSection'

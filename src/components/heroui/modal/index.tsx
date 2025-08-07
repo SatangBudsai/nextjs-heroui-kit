@@ -1,41 +1,53 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import {
   Modal as ModalHeroUI,
   ModalContent as ModalContentHeroUI,
   ModalHeader as ModalHeaderHeroUI,
   ModalBody as ModalBodyHeroUI,
-  ModalFooter as ModalFooterHeroUI
+  ModalFooter as ModalFooterHeroUI,
+  ModalProps as ModalPropsHeroUI,
+  ModalContentProps as ModalContentPropsHeroUI,
+  ModalHeaderProps as ModalHeaderPropsHeroUI,
+  ModalBodyProps as ModalBodyPropsHeroUI,
+  ModalFooterProps as ModalFooterPropsHeroUI
 } from '@heroui/react'
 
-type ModalProps = React.ComponentProps<typeof ModalHeroUI> & {}
+export type ModalProps = ModalPropsHeroUI
 
-const Modal = ({ ...props }: ModalProps) => {
-  return <ModalHeroUI {...props} />
-}
+export const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
+  return <ModalHeroUI ref={ref} {...props} />
+})
 
-type ModalContentProps = React.ComponentProps<typeof ModalContentHeroUI> & {}
+Modal.displayName = 'Modal'
 
-const ModalContent = ({ ...props }: ModalContentProps) => {
+export type ModalContentProps = ModalContentPropsHeroUI
+
+export const ModalContent: React.FC<ModalContentProps> = props => {
   return <ModalContentHeroUI {...props} />
 }
 
-type ModalHeaderProps = React.ComponentProps<typeof ModalHeaderHeroUI> & {}
+ModalContent.displayName = 'ModalContent'
 
-const ModalHeader = ({ ...props }: ModalHeaderProps) => {
+export type ModalHeaderProps = ModalHeaderPropsHeroUI
+
+export const ModalHeader: React.FC<ModalHeaderProps> = props => {
   return <ModalHeaderHeroUI {...props} />
 }
 
-type ModalBodyProps = React.ComponentProps<typeof ModalBodyHeroUI> & {}
+ModalHeader.displayName = 'ModalHeader'
 
-const ModalBody = ({ ...props }: ModalBodyProps) => {
+export type ModalBodyProps = ModalBodyPropsHeroUI
+
+export const ModalBody: React.FC<ModalBodyProps> = props => {
   return <ModalBodyHeroUI {...props} />
 }
 
-type ModalFooterProps = React.ComponentProps<typeof ModalFooterHeroUI> & {}
+ModalBody.displayName = 'ModalBody'
 
-const ModalFooter = ({ ...props }: ModalFooterProps) => {
+export type ModalFooterProps = ModalFooterPropsHeroUI
+
+export const ModalFooter: React.FC<ModalFooterProps> = props => {
   return <ModalFooterHeroUI {...props} />
 }
 
-export default Modal
-export { ModalContent, ModalHeader, ModalBody, ModalFooter }
+ModalFooter.displayName = 'ModalFooter'

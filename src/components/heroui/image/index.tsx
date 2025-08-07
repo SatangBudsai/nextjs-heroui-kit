@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Image as ImageHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Image as ImageHeroUI, ImageProps as ImagePropsHeroUI } from '@heroui/react'
 
-type ImageProps = React.ComponentProps<typeof ImageHeroUI> & {}
+export type ImageProps = ImagePropsHeroUI
 
-const Image = forwardRef<React.ElementRef<typeof ImageHeroUI>, ImageProps>(
-  (props, ref) => {
-    return <ImageHeroUI ref={ref} {...props} />
-  }
-)
+export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
+  return <ImageHeroUI ref={ref} {...props} />
+})
+
 Image.displayName = 'Image'
-
-export default Image

@@ -1,24 +1,35 @@
-import { forwardRef } from 'react'
-import { Button as ButtonHeroUI, ButtonGroup as ButtonGroupHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Button as ButtonHeroUI,
+  ButtonGroup as ButtonGroupHeroUI,
+  ButtonProps as ButtonPropsHeroUI,
+  ButtonGroupProps as ButtonGroupPropsHeroUI
+} from '@heroui/react'
 
-type ButtonProps = React.ComponentProps<typeof ButtonHeroUI> & {}
+export type ButtonProps = ButtonPropsHeroUI
 
-const Button = forwardRef<React.ElementRef<typeof ButtonHeroUI>, ButtonProps>(
-  (props, ref) => {
-    return <ButtonHeroUI ref={ref} {...props} />
-  }
-)
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+  return <ButtonHeroUI ref={ref} {...props} />
+})
+
 Button.displayName = 'Button'
 
-type ButtonGroupProps = React.ComponentProps<typeof ButtonGroupHeroUI> & {}
+export type ButtonGroupProps = ButtonGroupPropsHeroUI
 
-const ButtonGroup = ({ ...props }: ButtonGroupProps) => {
+export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === Button) {
+      return <ButtonHeroUI key={child.key} {...(child.props as ButtonPropsHeroUI)} />
+    }
+    return child
+  })
+
   return (
-    
-      <ButtonGroupHeroUI {...props} />
-    
+    <ButtonGroupHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </ButtonGroupHeroUI>
   )
-}
+})
 
-export default Button
-export { ButtonGroup }
+ButtonGroup.displayName = 'ButtonGroup'

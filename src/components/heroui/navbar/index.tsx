@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import {
   Navbar as NavbarHeroUI,
   NavbarBrand as NavbarBrandHeroUI,
@@ -6,51 +6,62 @@ import {
   NavbarItem as NavbarItemHeroUI,
   NavbarMenuToggle as NavbarMenuToggleHeroUI,
   NavbarMenu as NavbarMenuHeroUI,
-  NavbarMenuItem as NavbarMenuItemHeroUI
+  NavbarMenuItem as NavbarMenuItemHeroUI,
+  NavbarProps as NavbarPropsHeroUI
 } from '@heroui/react'
 
-type NavbarProps = React.ComponentProps<typeof NavbarHeroUI> & {}
+export type NavbarProps = NavbarPropsHeroUI
 
-const Navbar = forwardRef<React.ElementRef<typeof NavbarHeroUI>, NavbarProps>((props, ref) => {
+export const Navbar = forwardRef<HTMLElement, NavbarProps>((props, ref) => {
   return <NavbarHeroUI ref={ref} {...props} />
 })
+
 Navbar.displayName = 'Navbar'
 
-type NavbarBrandProps = React.ComponentProps<typeof NavbarBrandHeroUI> & {}
+export type NavbarBrandProps = React.ComponentProps<typeof NavbarBrandHeroUI>
 
-const NavbarBrand = ({ ...props }: NavbarBrandProps) => {
+export const NavbarBrand: React.FC<NavbarBrandProps> = props => {
   return <NavbarBrandHeroUI {...props} />
 }
 
-type NavbarContentProps = React.ComponentProps<typeof NavbarContentHeroUI> & {}
+NavbarBrand.displayName = 'NavbarBrand'
 
-const NavbarContent = ({ ...props }: NavbarContentProps) => {
+export type NavbarContentProps = React.ComponentProps<typeof NavbarContentHeroUI>
+
+export const NavbarContent: React.FC<NavbarContentProps> = props => {
   return <NavbarContentHeroUI {...props} />
 }
 
-type NavbarItemProps = React.ComponentProps<typeof NavbarItemHeroUI> & {}
+NavbarContent.displayName = 'NavbarContent'
 
-const NavbarItem = ({ ...props }: NavbarItemProps) => {
+export type NavbarItemProps = React.ComponentProps<typeof NavbarItemHeroUI>
+
+export const NavbarItem: React.FC<NavbarItemProps> = props => {
   return <NavbarItemHeroUI {...props} />
 }
 
-type NavbarMenuToggleProps = React.ComponentProps<typeof NavbarMenuToggleHeroUI> & {}
+NavbarItem.displayName = 'NavbarItem'
 
-const NavbarMenuToggle = ({ ...props }: NavbarMenuToggleProps) => {
+export type NavbarMenuToggleProps = React.ComponentProps<typeof NavbarMenuToggleHeroUI>
+
+export const NavbarMenuToggle: React.FC<NavbarMenuToggleProps> = props => {
   return <NavbarMenuToggleHeroUI {...props} />
 }
 
-type NavbarMenuProps = React.ComponentProps<typeof NavbarMenuHeroUI> & {}
+NavbarMenuToggle.displayName = 'NavbarMenuToggle'
 
-const NavbarMenu = ({ ...props }: NavbarMenuProps) => {
+export type NavbarMenuProps = React.ComponentProps<typeof NavbarMenuHeroUI>
+
+export const NavbarMenu: React.FC<NavbarMenuProps> = props => {
   return <NavbarMenuHeroUI {...props} />
 }
 
-type NavbarMenuItemProps = React.ComponentProps<typeof NavbarMenuItemHeroUI> & {}
+NavbarMenu.displayName = 'NavbarMenu'
 
-const NavbarMenuItem = ({ ...props }: NavbarMenuItemProps) => {
+export type NavbarMenuItemProps = React.ComponentProps<typeof NavbarMenuItemHeroUI>
+
+export const NavbarMenuItem: React.FC<NavbarMenuItemProps> = props => {
   return <NavbarMenuItemHeroUI {...props} />
 }
 
-export default Navbar
-export { NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem }
+NavbarMenuItem.displayName = 'NavbarMenuItem'

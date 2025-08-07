@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Spacer as SpacerHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Spacer as SpacerHeroUI, SpacerProps as SpacerPropsHeroUI } from '@heroui/react'
 
-type SpacerProps = React.ComponentProps<typeof SpacerHeroUI> & {}
+export type SpacerProps = SpacerPropsHeroUI
 
-const Spacer = forwardRef<React.ElementRef<typeof SpacerHeroUI>, SpacerProps>(
-  (props, ref) => {
-    return <SpacerHeroUI ref={ref} {...props} />
-  }
-)
+export const Spacer = forwardRef<HTMLDivElement, SpacerProps>((props, ref) => {
+  return <SpacerHeroUI ref={ref} {...props} />
+})
+
 Spacer.displayName = 'Spacer'
-
-export default Spacer

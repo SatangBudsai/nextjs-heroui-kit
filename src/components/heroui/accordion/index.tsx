@@ -1,17 +1,35 @@
-import React from 'react'
-import { Accordion as AccordionHeroUI, AccordionItem as AccordionItemHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Accordion as AccordionHeroUI,
+  AccordionItem as AccordionItemHeroUI,
+  AccordionProps as AccordionPropsHeroUI,
+  AccordionItemProps as AccordionItemPropsHeroUI
+} from '@heroui/react'
 
-type AccordionProps = React.ComponentProps<typeof AccordionHeroUI> & {}
+export type AccordionProps = AccordionPropsHeroUI
 
-const Accordion = ({ ...props }: AccordionProps) => {
-  return <AccordionHeroUI {...props} />
+export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === AccordionItem) {
+      return <AccordionItemHeroUI key={child.key} {...(child.props as AccordionItemPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <AccordionHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </AccordionHeroUI>
+  )
+})
+
+Accordion.displayName = 'Accordion'
+
+export type AccordionItemProps = AccordionItemPropsHeroUI
+
+export const AccordionItem: React.FC<AccordionItemProps> = props => {
+  return null // This component won't render directly
 }
 
-type AccordionItemProps = React.ComponentProps<typeof AccordionItemHeroUI> & {}
-
-const AccordionItem = ({ ...props }: AccordionItemProps) => {
-  return <AccordionItemHeroUI {...props} />
-}
-
-export default Accordion
-export { AccordionItem }
+AccordionItem.displayName = 'AccordionItem'

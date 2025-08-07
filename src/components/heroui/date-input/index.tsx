@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { DateInput as DateInputHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { DateInput as DateInputHeroUI, DateInputProps as DateInputPropsHeroUI } from '@heroui/react'
 
-type DateInputProps = React.ComponentProps<typeof DateInputHeroUI> & {}
+export type DateInputProps = DateInputPropsHeroUI
 
-const DateInput = forwardRef<React.ElementRef<typeof DateInputHeroUI>, DateInputProps>(
-  (props, ref) => {
-    return <DateInputHeroUI ref={ref} {...props} />
-  }
-)
+export const DateInput = forwardRef<HTMLDivElement, DateInputProps>((props, ref) => {
+  return <DateInputHeroUI ref={ref} {...props} />
+})
+
 DateInput.displayName = 'DateInput'
-
-export default DateInput

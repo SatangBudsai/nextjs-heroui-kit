@@ -1,23 +1,26 @@
 // Note: Toast component may not be available in current @heroui/react version
 // This is a placeholder wrapper for when it becomes available
 
-import React from 'react'
-// import { Toast as ToastHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+// import { Toast as ToastHeroUI, ToastProps as ToastPropsHeroUI } from '@heroui/react'
 
 // Placeholder component - uncomment when Toast is available
-// type ToastProps = React.ComponentProps<typeof ToastHeroUI> & {}
-
-// const Toast = ({ ...props }: ToastProps) => {
-//   return <ToastHeroUI {...props} />
-// }
+// export type ToastProps = ToastPropsHeroUI
+// export const Toast = forwardRef<HTMLDivElement, ToastProps>((props, ref) => {
+//   return <ToastHeroUI ref={ref} {...props} />
+// })
 
 // Temporary placeholder
-type ToastProps = {
+export type ToastProps = {
   children: React.ReactNode
 } & React.HTMLAttributes<HTMLDivElement>
 
-const Toast = ({ children, ...props }: ToastProps) => {
-  return <div {...props}>{children}</div>
-}
+export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ children, ...props }, ref) => {
+  return (
+    <div ref={ref} {...props}>
+      {children}
+    </div>
+  )
+})
 
-export default Toast
+Toast.displayName = 'Toast'

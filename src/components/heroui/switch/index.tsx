@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Switch as SwitchHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Switch as SwitchHeroUI, SwitchProps as SwitchPropsHeroUI } from '@heroui/react'
 
-type SwitchProps = React.ComponentProps<typeof SwitchHeroUI> & {}
+export type SwitchProps = SwitchPropsHeroUI
 
-const Switch = forwardRef<React.ElementRef<typeof SwitchHeroUI>, SwitchProps>(
-  (props, ref) => {
-    return <SwitchHeroUI ref={ref} {...props} />
-  }
-)
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props, ref) => {
+  return <SwitchHeroUI ref={ref} {...props} />
+})
+
 Switch.displayName = 'Switch'
-
-export default Switch

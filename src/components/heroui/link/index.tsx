@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Link as LinkHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Link as LinkHeroUI, LinkProps as LinkPropsHeroUI } from '@heroui/react'
 
-type LinkProps = React.ComponentProps<typeof LinkHeroUI> & {}
+export type LinkProps = LinkPropsHeroUI
 
-const Link = forwardRef<React.ElementRef<typeof LinkHeroUI>, LinkProps>(
-  (props, ref) => {
-    return <LinkHeroUI ref={ref} {...props} />
-  }
-)
+export const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
+  return <LinkHeroUI ref={ref} {...props} />
+})
+
 Link.displayName = 'Link'
-
-export default Link

@@ -1,49 +1,58 @@
-import { forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import {
   Table as TableHeroUI,
   TableHeader as TableHeaderHeroUI,
   TableBody as TableBodyHeroUI,
   TableColumn as TableColumnHeroUI,
   TableRow as TableRowHeroUI,
-  TableCell as TableCellHeroUI
+  TableCell as TableCellHeroUI,
+  TableProps as TablePropsHeroUI
 } from '@heroui/react'
 
-type TableProps = React.ComponentProps<typeof TableHeroUI> & {}
+export type TableProps = TablePropsHeroUI
 
-const Table = forwardRef<React.ElementRef<typeof TableHeroUI>, TableProps>((props, ref) => {
+export const Table = forwardRef<HTMLTableElement, TableProps>((props, ref) => {
   return <TableHeroUI ref={ref} {...props} />
 })
+
 Table.displayName = 'Table'
 
-type TableHeaderProps = React.ComponentProps<typeof TableHeaderHeroUI> & {}
+export type TableHeaderProps<T extends object = object> = React.ComponentProps<typeof TableHeaderHeroUI<T>>
 
-const TableHeader = ({ ...props }: TableHeaderProps) => {
+export const TableHeader = <T extends object = object>({ ...props }: TableHeaderProps<T>) => {
   return <TableHeaderHeroUI {...props} />
 }
 
-type TableBodyProps = React.ComponentProps<typeof TableBodyHeroUI> & {}
+TableHeader.displayName = 'TableHeader'
 
-const TableBody = ({ ...props }: TableBodyProps) => {
+export type TableBodyProps<T extends object = object> = React.ComponentProps<typeof TableBodyHeroUI<T>>
+
+export const TableBody = <T extends object = object>({ ...props }: TableBodyProps<T>) => {
   return <TableBodyHeroUI {...props} />
 }
 
-type TableColumnProps = React.ComponentProps<typeof TableColumnHeroUI> & {}
+TableBody.displayName = 'TableBody'
 
-const TableColumn = ({ ...props }: TableColumnProps) => {
+export type TableColumnProps<T extends object = object> = React.ComponentProps<typeof TableColumnHeroUI<T>>
+
+export const TableColumn = <T extends object = object>({ ...props }: TableColumnProps<T>) => {
   return <TableColumnHeroUI {...props} />
 }
 
-type TableRowProps = React.ComponentProps<typeof TableRowHeroUI> & {}
+TableColumn.displayName = 'TableColumn'
 
-const TableRow = ({ ...props }: TableRowProps) => {
+export type TableRowProps = React.ComponentProps<typeof TableRowHeroUI>
+
+export const TableRow: React.FC<TableRowProps> = props => {
   return <TableRowHeroUI {...props} />
 }
 
-type TableCellProps = React.ComponentProps<typeof TableCellHeroUI> & {}
+TableRow.displayName = 'TableRow'
 
-const TableCell = ({ ...props }: TableCellProps) => {
+export type TableCellProps = React.ComponentProps<typeof TableCellHeroUI>
+
+export const TableCell: React.FC<TableCellProps> = props => {
   return <TableCellHeroUI {...props} />
 }
 
-export default Table
-export { TableHeader, TableBody, TableColumn, TableRow, TableCell }
+TableCell.displayName = 'TableCell'

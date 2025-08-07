@@ -1,24 +1,50 @@
-import { forwardRef } from 'react'
-import { Menu as MenuHeroUI, MenuItem as MenuItemHeroUI, MenuSection as MenuSectionHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Menu as MenuHeroUI,
+  MenuItem as MenuItemHeroUI,
+  MenuSection as MenuSectionHeroUI,
+  MenuProps as MenuPropsHeroUI,
+  MenuItemProps as MenuItemPropsHeroUI,
+  MenuSectionProps as MenuSectionPropsHeroUI
+} from '@heroui/react'
 
-type MenuProps = React.ComponentProps<typeof MenuHeroUI> & {}
+export type MenuProps = MenuPropsHeroUI
 
-const Menu = forwardRef<React.ElementRef<typeof MenuHeroUI>, MenuProps>((props, ref) => {
-  return <MenuHeroUI ref={ref} {...props} />
+export const Menu = forwardRef<HTMLUListElement, MenuProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === MenuItem) {
+      // @ts-ignore
+      return <MenuItemHeroUI key={child.key} {...(child.props as MenuItemPropsHeroUI)} />
+    }
+    if (React.isValidElement(child) && child.type === MenuSection) {
+      // @ts-ignore
+      return <MenuSectionHeroUI key={child.key} {...(child.props as MenuSectionPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <MenuHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </MenuHeroUI>
+  )
 })
+
 Menu.displayName = 'Menu'
 
-type MenuItemProps = React.ComponentProps<typeof MenuItemHeroUI> & {}
+export type MenuItemProps = MenuItemPropsHeroUI
 
-const MenuItem = ({ ...props }: MenuItemProps) => {
-  return <MenuItemHeroUI {...props} />
+export const MenuItem: React.FC<MenuItemProps> = props => {
+  return null // This component won't render directly
 }
 
-type MenuSectionProps = React.ComponentProps<typeof MenuSectionHeroUI> & {}
+MenuItem.displayName = 'MenuItem'
 
-const MenuSection = ({ ...props }: MenuSectionProps) => {
-  return <MenuSectionHeroUI {...props} />
+export type MenuSectionProps = MenuSectionPropsHeroUI
+
+export const MenuSection: React.FC<MenuSectionProps> = props => {
+  return null // This component won't render directly
 }
 
-export default Menu
-export { MenuItem, MenuSection }
+MenuSection.displayName = 'MenuSection'

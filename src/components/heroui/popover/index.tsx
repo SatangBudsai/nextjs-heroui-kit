@@ -1,27 +1,33 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import {
   Popover as PopoverHeroUI,
   PopoverTrigger as PopoverTriggerHeroUI,
-  PopoverContent as PopoverContentHeroUI
+  PopoverContent as PopoverContentHeroUI,
+  PopoverProps as PopoverPropsHeroUI,
+  PopoverTriggerProps as PopoverTriggerPropsHeroUI,
+  PopoverContentProps as PopoverContentPropsHeroUI
 } from '@heroui/react'
 
-type PopoverProps = React.ComponentProps<typeof PopoverHeroUI> & {}
+export type PopoverProps = PopoverPropsHeroUI
 
-const Popover = ({ ...props }: PopoverProps) => {
-  return <PopoverHeroUI {...props} />
-}
+export const Popover = forwardRef<HTMLDivElement, PopoverProps>((props, ref) => {
+  return <PopoverHeroUI ref={ref} {...props} />
+})
 
-type PopoverTriggerProps = React.ComponentProps<typeof PopoverTriggerHeroUI> & {}
+Popover.displayName = 'Popover'
 
-const PopoverTrigger = ({ ...props }: PopoverTriggerProps) => {
+export type PopoverTriggerProps = PopoverTriggerPropsHeroUI
+
+export const PopoverTrigger: React.FC<PopoverTriggerProps> = props => {
   return <PopoverTriggerHeroUI {...props} />
 }
 
-type PopoverContentProps = React.ComponentProps<typeof PopoverContentHeroUI> & {}
+PopoverTrigger.displayName = 'PopoverTrigger'
 
-const PopoverContent = ({ ...props }: PopoverContentProps) => {
+export type PopoverContentProps = PopoverContentPropsHeroUI
+
+export const PopoverContent: React.FC<PopoverContentProps> = props => {
   return <PopoverContentHeroUI {...props} />
 }
 
-export default Popover
-export { PopoverTrigger, PopoverContent }
+PopoverContent.displayName = 'PopoverContent'

@@ -1,41 +1,49 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import {
   Drawer as DrawerHeroUI,
   DrawerContent as DrawerContentHeroUI,
   DrawerHeader as DrawerHeaderHeroUI,
   DrawerBody as DrawerBodyHeroUI,
-  DrawerFooter as DrawerFooterHeroUI
+  DrawerFooter as DrawerFooterHeroUI,
+  DrawerProps as DrawerPropsHeroUI
 } from '@heroui/react'
 
-type DrawerProps = React.ComponentProps<typeof DrawerHeroUI> & {}
+export type DrawerProps = DrawerPropsHeroUI
 
-const Drawer = ({ ...props }: DrawerProps) => {
-  return <DrawerHeroUI {...props} />
-}
+export const Drawer = forwardRef<HTMLDivElement, DrawerProps>((props, ref) => {
+  return <DrawerHeroUI ref={ref} {...props} />
+})
 
-type DrawerContentProps = React.ComponentProps<typeof DrawerContentHeroUI> & {}
+Drawer.displayName = 'Drawer'
 
-const DrawerContent = ({ ...props }: DrawerContentProps) => {
+export type DrawerContentProps = React.ComponentProps<typeof DrawerContentHeroUI>
+
+export const DrawerContent: React.FC<DrawerContentProps> = props => {
   return <DrawerContentHeroUI {...props} />
 }
 
-type DrawerHeaderProps = React.ComponentProps<typeof DrawerHeaderHeroUI> & {}
+DrawerContent.displayName = 'DrawerContent'
 
-const DrawerHeader = ({ ...props }: DrawerHeaderProps) => {
+export type DrawerHeaderProps = React.ComponentProps<typeof DrawerHeaderHeroUI>
+
+export const DrawerHeader: React.FC<DrawerHeaderProps> = props => {
   return <DrawerHeaderHeroUI {...props} />
 }
 
-type DrawerBodyProps = React.ComponentProps<typeof DrawerBodyHeroUI> & {}
+DrawerHeader.displayName = 'DrawerHeader'
 
-const DrawerBody = ({ ...props }: DrawerBodyProps) => {
+export type DrawerBodyProps = React.ComponentProps<typeof DrawerBodyHeroUI>
+
+export const DrawerBody: React.FC<DrawerBodyProps> = props => {
   return <DrawerBodyHeroUI {...props} />
 }
 
-type DrawerFooterProps = React.ComponentProps<typeof DrawerFooterHeroUI> & {}
+DrawerBody.displayName = 'DrawerBody'
 
-const DrawerFooter = ({ ...props }: DrawerFooterProps) => {
+export type DrawerFooterProps = React.ComponentProps<typeof DrawerFooterHeroUI>
+
+export const DrawerFooter: React.FC<DrawerFooterProps> = props => {
   return <DrawerFooterHeroUI {...props} />
 }
 
-export default Drawer
-export { DrawerContent, DrawerHeader, DrawerBody, DrawerFooter }
+DrawerFooter.displayName = 'DrawerFooter'

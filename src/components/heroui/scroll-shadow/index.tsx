@@ -1,11 +1,10 @@
-import { forwardRef } from 'react'
-import { ScrollShadow as ScrollShadowHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { ScrollShadow as ScrollShadowHeroUI, ScrollShadowProps as ScrollShadowPropsHeroUI } from '@heroui/react'
 
-type ScrollShadowProps = React.ComponentProps<typeof ScrollShadowHeroUI> & {}
+export type ScrollShadowProps = ScrollShadowPropsHeroUI
 
-const ScrollShadow = forwardRef<React.ElementRef<typeof ScrollShadowHeroUI>, ScrollShadowProps>((props, ref) => {
+export const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>((props, ref) => {
   return <ScrollShadowHeroUI ref={ref} {...props} />
 })
-ScrollShadow.displayName = 'ScrollShadow'
 
-export default ScrollShadow
+ScrollShadow.displayName = 'ScrollShadow'

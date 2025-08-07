@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Kbd as KbdHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Kbd as KbdHeroUI, KbdProps as KbdPropsHeroUI } from '@heroui/react'
 
-type KbdProps = React.ComponentProps<typeof KbdHeroUI> & {}
+export type KbdProps = KbdPropsHeroUI
 
-const Kbd = forwardRef<React.ElementRef<typeof KbdHeroUI>, KbdProps>(
-  (props, ref) => {
-    return <KbdHeroUI ref={ref} {...props} />
-  }
-)
+export const Kbd = forwardRef<HTMLElement, KbdProps>((props, ref) => {
+  return <KbdHeroUI ref={ref} {...props} />
+})
+
 Kbd.displayName = 'Kbd'
-
-export default Kbd

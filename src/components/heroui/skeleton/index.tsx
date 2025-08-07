@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Skeleton as SkeletonHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Skeleton as SkeletonHeroUI, SkeletonProps as SkeletonPropsHeroUI } from '@heroui/react'
 
-type SkeletonProps = React.ComponentProps<typeof SkeletonHeroUI> & {}
+export type SkeletonProps = SkeletonPropsHeroUI
 
-const Skeleton = forwardRef<React.ElementRef<typeof SkeletonHeroUI>, SkeletonProps>(
-  (props, ref) => {
-    return <SkeletonHeroUI ref={ref} {...props} />
-  }
-)
+export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>((props, ref) => {
+  return <SkeletonHeroUI ref={ref} {...props} />
+})
+
 Skeleton.displayName = 'Skeleton'
-
-export default Skeleton

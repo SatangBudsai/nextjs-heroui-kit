@@ -1,24 +1,35 @@
-import { forwardRef } from 'react'
-import { Checkbox as CheckboxHeroUI, CheckboxGroup as CheckboxGroupHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Checkbox as CheckboxHeroUI,
+  CheckboxGroup as CheckboxGroupHeroUI,
+  CheckboxProps as CheckboxPropsHeroUI,
+  CheckboxGroupProps as CheckboxGroupPropsHeroUI
+} from '@heroui/react'
 
-type CheckboxProps = React.ComponentProps<typeof CheckboxHeroUI> & {}
+export type CheckboxProps = CheckboxPropsHeroUI
 
-const Checkbox = forwardRef<React.ElementRef<typeof CheckboxHeroUI>, CheckboxProps>(
-  (props, ref) => {
-    return <CheckboxHeroUI ref={ref} {...props} />
-  }
-)
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
+  return <CheckboxHeroUI ref={ref} {...props} />
+})
+
 Checkbox.displayName = 'Checkbox'
 
-type CheckboxGroupProps = React.ComponentProps<typeof CheckboxGroupHeroUI> & {}
+export type CheckboxGroupProps = CheckboxGroupPropsHeroUI
 
-const CheckboxGroup = ({ ...props }: CheckboxGroupProps) => {
+export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === Checkbox) {
+      return <CheckboxHeroUI key={child.key} {...(child.props as CheckboxPropsHeroUI)} />
+    }
+    return child
+  })
+
   return (
-    
-      <CheckboxGroupHeroUI {...props} />
-    
+    <CheckboxGroupHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </CheckboxGroupHeroUI>
   )
-}
+})
 
-export default Checkbox
-export { CheckboxGroup }
+CheckboxGroup.displayName = 'CheckboxGroup'

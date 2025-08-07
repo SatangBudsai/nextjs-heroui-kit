@@ -1,17 +1,36 @@
-import React from 'react'
-import { Radio as RadioHeroUI, RadioGroup as RadioGroupHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Radio as RadioHeroUI,
+  RadioGroup as RadioGroupHeroUI,
+  RadioProps as RadioPropsHeroUI,
+  RadioGroupProps as RadioGroupPropsHeroUI
+} from '@heroui/react'
 
-type RadioProps = React.ComponentProps<typeof RadioHeroUI> & {}
+export type RadioProps = RadioPropsHeroUI
 
-const Radio = ({ ...props }: RadioProps) => {
+export const Radio: React.FC<RadioProps> = props => {
   return <RadioHeroUI {...props} />
 }
 
-type RadioGroupProps = React.ComponentProps<typeof RadioGroupHeroUI> & {}
+Radio.displayName = 'Radio'
 
-const RadioGroup = ({ ...props }: RadioGroupProps) => {
-  return <RadioGroupHeroUI {...props} />
-}
+export type RadioGroupProps = RadioGroupPropsHeroUI
 
-export default Radio
-export { RadioGroup }
+export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === Radio) {
+      // @ts-ignore
+      return <RadioHeroUI key={child.key} {...(child.props as RadioPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <RadioGroupHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </RadioGroupHeroUI>
+  )
+})
+
+RadioGroup.displayName = 'RadioGroup'

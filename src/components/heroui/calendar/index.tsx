@@ -1,25 +1,23 @@
-import React from 'react'
-import { Calendar as CalendarHeroUI, RangeCalendar as RangeCalendarHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Calendar as CalendarHeroUI,
+  RangeCalendar as RangeCalendarHeroUI,
+  CalendarProps as CalendarPropsHeroUI,
+  RangeCalendarProps as RangeCalendarPropsHeroUI
+} from '@heroui/react'
 
-type CalendarProps = React.ComponentProps<typeof CalendarHeroUI> & {}
+export type CalendarProps = CalendarPropsHeroUI
 
-const Calendar = ({ ...props }: CalendarProps) => {
-  return (
-    
-      <CalendarHeroUI {...props} />
-    
-  )
-}
+export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, ref) => {
+  return <CalendarHeroUI ref={ref} {...props} />
+})
 
-type RangeCalendarProps = React.ComponentProps<typeof RangeCalendarHeroUI> & {}
+Calendar.displayName = 'Calendar'
 
-const RangeCalendar = ({ ...props }: RangeCalendarProps) => {
-  return (
-    
-      <RangeCalendarHeroUI {...props} />
-    
-  )
-}
+export type RangeCalendarProps = RangeCalendarPropsHeroUI
 
-export default Calendar
-export { RangeCalendar }
+export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>((props, ref) => {
+  return <RangeCalendarHeroUI ref={ref} {...props} />
+})
+
+RangeCalendar.displayName = 'RangeCalendar'

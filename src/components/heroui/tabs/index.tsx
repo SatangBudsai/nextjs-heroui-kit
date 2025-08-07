@@ -1,18 +1,18 @@
-import { forwardRef } from 'react'
-import { Tabs as TabsHeroUI, Tab as TabHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Tabs as TabsHeroUI, Tab as TabHeroUI, TabsProps as TabsPropsHeroUI } from '@heroui/react'
 
-type TabsProps = React.ComponentProps<typeof TabsHeroUI> & {}
+export type TabsProps = TabsPropsHeroUI
 
-const Tabs = forwardRef<React.ElementRef<typeof TabsHeroUI>, TabsProps>((props, ref) => {
+export const Tabs = forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   return <TabsHeroUI ref={ref} {...props} />
 })
+
 Tabs.displayName = 'Tabs'
 
-type TabProps = React.ComponentProps<typeof TabHeroUI> & {}
+export type TabProps = React.ComponentProps<typeof TabHeroUI>
 
-const Tab = ({ ...props }: TabProps) => {
+export const Tab: React.FC<TabProps> = props => {
   return <TabHeroUI {...props} />
 }
 
-export default Tabs
-export { Tab }
+Tab.displayName = 'Tab'

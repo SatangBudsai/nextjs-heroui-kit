@@ -1,18 +1,35 @@
-import { forwardRef } from 'react'
-import { Breadcrumbs as BreadcrumbsHeroUI, BreadcrumbItem as BreadcrumbItemHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Breadcrumbs as BreadcrumbsHeroUI,
+  BreadcrumbItem as BreadcrumbItemHeroUI,
+  BreadcrumbsProps as BreadcrumbsPropsHeroUI,
+  BreadcrumbItemProps as BreadcrumbItemPropsHeroUI
+} from '@heroui/react'
 
-type BreadcrumbsProps = React.ComponentProps<typeof BreadcrumbsHeroUI> & {}
+export type BreadcrumbsProps = BreadcrumbsPropsHeroUI
 
-const Breadcrumbs = forwardRef<React.ElementRef<typeof BreadcrumbsHeroUI>, BreadcrumbsProps>((props, ref) => {
-  return <BreadcrumbsHeroUI ref={ref} {...props} />
+export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === BreadcrumbItem) {
+      return <BreadcrumbItemHeroUI key={child.key} {...(child.props as BreadcrumbItemPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <BreadcrumbsHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </BreadcrumbsHeroUI>
+  )
 })
+
 Breadcrumbs.displayName = 'Breadcrumbs'
 
-type BreadcrumbItemProps = React.ComponentProps<typeof BreadcrumbItemHeroUI> & {}
+export type BreadcrumbItemProps = BreadcrumbItemPropsHeroUI
 
-const BreadcrumbItem = ({ ...props }: BreadcrumbItemProps) => {
-  return <BreadcrumbItemHeroUI {...props} />
+export const BreadcrumbItem: React.FC<BreadcrumbItemProps> = props => {
+  return null // This component won't render directly
 }
 
-export default Breadcrumbs
-export { BreadcrumbItem }
+BreadcrumbItem.displayName = 'BreadcrumbItem'

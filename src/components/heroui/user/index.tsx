@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { User as UserHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { User as UserHeroUI, UserProps as UserPropsHeroUI } from '@heroui/react'
 
-type UserProps = React.ComponentProps<typeof UserHeroUI> & {}
+export type UserProps = UserPropsHeroUI
 
-const User = forwardRef<React.ElementRef<typeof UserHeroUI>, UserProps>(
-  (props, ref) => {
-    return <UserHeroUI ref={ref} {...props} />
-  }
-)
+export const User = forwardRef<HTMLDivElement, UserProps>((props, ref) => {
+  return <UserHeroUI ref={ref} {...props} />
+})
+
 User.displayName = 'User'
-
-export default User

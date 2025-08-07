@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Progress as ProgressHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Progress as ProgressHeroUI, ProgressProps as ProgressPropsHeroUI } from '@heroui/react'
 
-type ProgressProps = React.ComponentProps<typeof ProgressHeroUI> & {}
+export type ProgressProps = ProgressPropsHeroUI
 
-const Progress = forwardRef<React.ElementRef<typeof ProgressHeroUI>, ProgressProps>(
-  (props, ref) => {
-    return <ProgressHeroUI ref={ref} {...props} />
-  }
-)
+export const Progress = forwardRef<HTMLDivElement, ProgressProps>((props, ref) => {
+  return <ProgressHeroUI ref={ref} {...props} />
+})
+
 Progress.displayName = 'Progress'
-
-export default Progress

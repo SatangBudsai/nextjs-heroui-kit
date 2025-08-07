@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Slider as SliderHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Slider as SliderHeroUI, SliderProps as SliderPropsHeroUI } from '@heroui/react'
 
-type SliderProps = React.ComponentProps<typeof SliderHeroUI> & {}
+export type SliderProps = SliderPropsHeroUI
 
-const Slider = forwardRef<React.ElementRef<typeof SliderHeroUI>, SliderProps>(
-  (props, ref) => {
-    return <SliderHeroUI ref={ref} {...props} />
-  }
-)
+export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
+  return <SliderHeroUI ref={ref} {...props} />
+})
+
 Slider.displayName = 'Slider'
-
-export default Slider

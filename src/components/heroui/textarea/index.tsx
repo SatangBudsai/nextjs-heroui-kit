@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Textarea as TextareaHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Textarea as TextareaHeroUI, TextAreaProps as TextareaPropsHeroUI } from '@heroui/react'
 
-type TextareaProps = React.ComponentProps<typeof TextareaHeroUI> & {}
+export type TextareaProps = TextareaPropsHeroUI
 
-const Textarea = forwardRef<React.ElementRef<typeof TextareaHeroUI>, TextareaProps>(
-  (props, ref) => {
-    return <TextareaHeroUI ref={ref} {...props} />
-  }
-)
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>((props, ref) => {
+  return <TextareaHeroUI ref={ref} {...props} />
+})
+
 Textarea.displayName = 'Textarea'
-
-export default Textarea

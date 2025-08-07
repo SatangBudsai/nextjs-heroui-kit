@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Chip as ChipHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Chip as ChipHeroUI, ChipProps as ChipPropsHeroUI } from '@heroui/react'
 
-type ChipProps = React.ComponentProps<typeof ChipHeroUI> & {}
+export type ChipProps = ChipPropsHeroUI
 
-const Chip = forwardRef<React.ElementRef<typeof ChipHeroUI>, ChipProps>(
-  (props, ref) => {
-    return <ChipHeroUI ref={ref} {...props} />
-  }
-)
+export const Chip = forwardRef<HTMLDivElement, ChipProps>((props, ref) => {
+  return <ChipHeroUI ref={ref} {...props} />
+})
+
 Chip.displayName = 'Chip'
-
-export default Chip

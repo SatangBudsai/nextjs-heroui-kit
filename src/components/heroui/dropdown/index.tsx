@@ -1,42 +1,70 @@
-import { forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import {
   Dropdown as DropdownHeroUI,
   DropdownTrigger as DropdownTriggerHeroUI,
   DropdownMenu as DropdownMenuHeroUI,
   DropdownItem as DropdownItemHeroUI,
-  DropdownSection as DropdownSectionHeroUI
+  DropdownSection as DropdownSectionHeroUI,
+  DropdownProps as DropdownPropsHeroUI,
+  DropdownTriggerProps as DropdownTriggerPropsHeroUI,
+  DropdownMenuProps as DropdownMenuPropsHeroUI,
+  DropdownItemProps as DropdownItemPropsHeroUI,
+  DropdownSectionProps as DropdownSectionPropsHeroUI
 } from '@heroui/react'
 
-type DropdownProps = React.ComponentProps<typeof DropdownHeroUI> & {}
+export type DropdownProps = DropdownPropsHeroUI
 
-const Dropdown = ({ ...props }: DropdownProps) => {
-  return <DropdownHeroUI {...props} />
-}
+export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>((props, ref) => {
+  return <DropdownHeroUI ref={ref} {...props} />
+})
 
-type DropdownTriggerProps = React.ComponentProps<typeof DropdownTriggerHeroUI> & {}
+Dropdown.displayName = 'Dropdown'
 
-const DropdownTrigger = ({ ...props }: DropdownTriggerProps) => {
+export type DropdownTriggerProps = DropdownTriggerPropsHeroUI
+
+export const DropdownTrigger: React.FC<DropdownTriggerProps> = props => {
   return <DropdownTriggerHeroUI {...props} />
 }
 
-type DropdownMenuProps = React.ComponentProps<typeof DropdownMenuHeroUI> & {}
+DropdownTrigger.displayName = 'DropdownTrigger'
 
-const DropdownMenu = forwardRef<React.ElementRef<typeof DropdownMenuHeroUI>, DropdownMenuProps>((props, ref) => {
-  return <DropdownMenuHeroUI ref={ref} {...props} />
+export type DropdownMenuProps = DropdownMenuPropsHeroUI
+
+export const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === DropdownItem) {
+      // @ts-ignore
+      return <DropdownItemHeroUI key={child.key} {...(child.props as DropdownItemPropsHeroUI)} />
+    }
+    if (React.isValidElement(child) && child.type === DropdownSection) {
+      // @ts-ignore
+      return <DropdownSectionHeroUI key={child.key} {...(child.props as DropdownSectionPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <DropdownMenuHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </DropdownMenuHeroUI>
+  )
 })
+
 DropdownMenu.displayName = 'DropdownMenu'
 
-type DropdownItemProps = React.ComponentProps<typeof DropdownItemHeroUI> & {}
+export type DropdownItemProps = DropdownItemPropsHeroUI
 
-const DropdownItem = ({ ...props }: DropdownItemProps) => {
-  return <DropdownItemHeroUI {...props} />
+export const DropdownItem: React.FC<DropdownItemProps> = props => {
+  return null // This component won't render directly
 }
 
-type DropdownSectionProps = React.ComponentProps<typeof DropdownSectionHeroUI> & {}
+DropdownItem.displayName = 'DropdownItem'
 
-const DropdownSection = ({ ...props }: DropdownSectionProps) => {
-  return <DropdownSectionHeroUI {...props} />
+export type DropdownSectionProps = DropdownSectionPropsHeroUI
+
+export const DropdownSection: React.FC<DropdownSectionProps> = props => {
+  return null // This component won't render directly
 }
 
-export default Dropdown
-export { DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection }
+DropdownSection.displayName = 'DropdownSection'

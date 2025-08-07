@@ -1,44 +1,40 @@
-import { forwardRef } from 'react'
-import { Card as CardHeroUI, CardHeader as CardHeaderHeroUI, CardBody as CardBodyHeroUI, CardFooter as CardFooterHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  Card as CardHeroUI,
+  CardHeader as CardHeaderHeroUI,
+  CardBody as CardBodyHeroUI,
+  CardFooter as CardFooterHeroUI,
+  CardProps as CardPropsHeroUI
+} from '@heroui/react'
 
-type CardProps = React.ComponentProps<typeof CardHeroUI> & {}
+export type CardProps = CardPropsHeroUI
 
-const Card = forwardRef<React.ElementRef<typeof CardHeroUI>, CardProps>(
-  (props, ref) => {
-    return <CardHeroUI ref={ref} {...props} />
-  }
-)
+export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
+  return <CardHeroUI ref={ref} {...props} />
+})
+
 Card.displayName = 'Card'
 
-type CardHeaderProps = React.ComponentProps<typeof CardHeaderHeroUI> & {}
+export type CardHeaderProps = React.ComponentProps<typeof CardHeaderHeroUI>
 
-const CardHeader = ({ ...props }: CardHeaderProps) => {
-  return (
-    
-      <CardHeaderHeroUI {...props} />
-    
-  )
+export const CardHeader: React.FC<CardHeaderProps> = props => {
+  return <CardHeaderHeroUI {...props} />
 }
 
-type CardBodyProps = React.ComponentProps<typeof CardBodyHeroUI> & {}
+CardHeader.displayName = 'CardHeader'
 
-const CardBody = ({ ...props }: CardBodyProps) => {
-  return (
-    
-      <CardBodyHeroUI {...props} />
-    
-  )
+export type CardBodyProps = React.ComponentProps<typeof CardBodyHeroUI>
+
+export const CardBody: React.FC<CardBodyProps> = props => {
+  return <CardBodyHeroUI {...props} />
 }
 
-type CardFooterProps = React.ComponentProps<typeof CardFooterHeroUI> & {}
+CardBody.displayName = 'CardBody'
 
-const CardFooter = ({ ...props }: CardFooterProps) => {
-  return (
-    
-      <CardFooterHeroUI {...props} />
-    
-  )
+export type CardFooterProps = React.ComponentProps<typeof CardFooterHeroUI>
+
+export const CardFooter: React.FC<CardFooterProps> = props => {
+  return <CardFooterHeroUI {...props} />
 }
 
-export default Card
-export { CardHeader, CardBody, CardFooter }
+CardFooter.displayName = 'CardFooter'

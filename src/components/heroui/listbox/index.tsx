@@ -1,28 +1,50 @@
-import { forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import {
   Listbox as ListboxHeroUI,
   ListboxItem as ListboxItemHeroUI,
-  ListboxSection as ListboxSectionHeroUI
+  ListboxSection as ListboxSectionHeroUI,
+  ListboxProps as ListboxPropsHeroUI,
+  ListboxItemProps as ListboxItemPropsHeroUI,
+  ListboxSectionProps as ListboxSectionPropsHeroUI
 } from '@heroui/react'
 
-type ListboxProps = React.ComponentProps<typeof ListboxHeroUI> & {}
+export type ListboxProps = ListboxPropsHeroUI
 
-const Listbox = forwardRef<React.ElementRef<typeof ListboxHeroUI>, ListboxProps>((props, ref) => {
-  return <ListboxHeroUI ref={ref} {...props} />
+export const Listbox = forwardRef<HTMLUListElement, ListboxProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === ListboxItem) {
+      // @ts-ignore
+      return <ListboxItemHeroUI key={child.key} {...(child.props as ListboxItemPropsHeroUI)} />
+    }
+    if (React.isValidElement(child) && child.type === ListboxSection) {
+      // @ts-ignore
+      return <ListboxSectionHeroUI key={child.key} {...(child.props as ListboxSectionPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <ListboxHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </ListboxHeroUI>
+  )
 })
+
 Listbox.displayName = 'Listbox'
 
-type ListboxItemProps = React.ComponentProps<typeof ListboxItemHeroUI> & {}
+export type ListboxItemProps = ListboxItemPropsHeroUI
 
-const ListboxItem = ({ ...props }: ListboxItemProps) => {
-  return <ListboxItemHeroUI {...props} />
+export const ListboxItem: React.FC<ListboxItemProps> = props => {
+  return null // This component won't render directly
 }
 
-type ListboxSectionProps = React.ComponentProps<typeof ListboxSectionHeroUI> & {}
+ListboxItem.displayName = 'ListboxItem'
 
-const ListboxSection = ({ ...props }: ListboxSectionProps) => {
-  return <ListboxSectionHeroUI {...props} />
+export type ListboxSectionProps = ListboxSectionPropsHeroUI
+
+export const ListboxSection: React.FC<ListboxSectionProps> = props => {
+  return null // This component won't render directly
 }
 
-export default Listbox
-export { ListboxItem, ListboxSection }
+ListboxSection.displayName = 'ListboxSection'

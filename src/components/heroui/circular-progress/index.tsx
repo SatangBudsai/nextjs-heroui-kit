@@ -1,13 +1,13 @@
-import { forwardRef } from 'react'
-import { CircularProgress as CircularProgressHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import {
+  CircularProgress as CircularProgressHeroUI,
+  CircularProgressProps as CircularProgressPropsHeroUI
+} from '@heroui/react'
 
-type CircularProgressProps = React.ComponentProps<typeof CircularProgressHeroUI> & {}
+export type CircularProgressProps = CircularProgressPropsHeroUI
 
-const CircularProgress = forwardRef<React.ElementRef<typeof CircularProgressHeroUI>, CircularProgressProps>(
-  (props, ref) => {
-    return <CircularProgressHeroUI ref={ref} {...props} />
-  }
-)
+export const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>((props, ref) => {
+  return <CircularProgressHeroUI ref={ref} {...props} />
+})
+
 CircularProgress.displayName = 'CircularProgress'
-
-export default CircularProgress

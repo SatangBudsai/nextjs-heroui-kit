@@ -1,13 +1,10 @@
-import { forwardRef } from 'react'
-import { Code as CodeHeroUI } from '@heroui/react'
+import React, { forwardRef } from 'react'
+import { Code as CodeHeroUI, CodeProps as CodePropsHeroUI } from '@heroui/react'
 
-type CodeProps = React.ComponentProps<typeof CodeHeroUI> & {}
+export type CodeProps = CodePropsHeroUI
 
-const Code = forwardRef<React.ElementRef<typeof CodeHeroUI>, CodeProps>(
-  (props, ref) => {
-    return <CodeHeroUI ref={ref} {...props} />
-  }
-)
+export const Code = forwardRef<HTMLElement, CodeProps>((props, ref) => {
+  return <CodeHeroUI ref={ref} {...props} />
+})
+
 Code.displayName = 'Code'
-
-export default Code
