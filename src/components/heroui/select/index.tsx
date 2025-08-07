@@ -1,28 +1,45 @@
-import { forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import {
   Select as SelectHeroUI,
   SelectItem as SelectItemHeroUI,
-  SelectSection as SelectSectionHeroUI
+  SelectProps as SelectPropsHeroUI,
+  SelectItemProps as SelectItemPropsHeroUI,
+  SelectSection as SelectSectionHeroUI,
+  SelectSectionProps as SelectSectionPropsHeroUI
 } from '@heroui/react'
 
-type SelectProps = React.ComponentProps<typeof SelectHeroUI> & {}
+export type SelectProps = SelectPropsHeroUI
 
-const Select = forwardRef<React.ElementRef<typeof SelectHeroUI>, SelectProps>((props, ref) => {
-  return <SelectHeroUI ref={ref} {...props} />
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === SelectItem) {
+      return <SelectItemHeroUI key={child.key} {...(child.props as SelectItemPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <SelectHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </SelectHeroUI>
+  )
 })
+
 Select.displayName = 'Select'
 
-type SelectItemProps = React.ComponentProps<typeof SelectItemHeroUI> & {}
+export type SelectItemProps = SelectItemPropsHeroUI
 
-const SelectItem = ({ ...props }: SelectItemProps) => {
-  return <SelectItemHeroUI {...props} />
+export const SelectItem: React.FC<SelectItemProps> = props => {
+  return null // This component won't render directly
 }
 
-type SelectSectionProps = React.ComponentProps<typeof SelectSectionHeroUI> & {}
+SelectItem.displayName = 'SelectItem'
 
-const SelectSection = ({ ...props }: SelectSectionProps) => {
-  return <SelectSectionHeroUI {...props} />
+export type SelectSectionProps = SelectSectionPropsHeroUI
+
+export const SelectSection: React.FC<SelectSectionProps> = props => {
+  return null // This component won't render directly
 }
 
-export default Select
-export { SelectItem, SelectSection }
+SelectSection.displayName = 'SelectSection'

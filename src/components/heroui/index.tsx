@@ -2,14 +2,22 @@
 // Import all HeroUI components with consistent API
 
 // Layout & Navigation
-export { default as Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from './navbar'
+export {
+  default as Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem
+} from './navbar'
 export { default as Breadcrumbs, BreadcrumbItem } from './breadcrumbs'
 export { default as Tabs, Tab } from './tabs'
 
 // Form Controls
 export { default as Input } from './input'
 export { default as Textarea } from './textarea'
-export { default as Select, SelectItem, SelectSection } from './select'
+export { Select, SelectItem, SelectSection } from './select'
 export { default as Checkbox, CheckboxGroup } from './checkbox'
 export { default as Radio, RadioGroup } from './radio'
 export { default as Switch } from './switch'
