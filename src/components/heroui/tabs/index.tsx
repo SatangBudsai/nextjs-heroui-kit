@@ -9,10 +9,4 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
 
 Tabs.displayName = 'Tabs'
 
-export type TabProps = React.ComponentProps<typeof TabHeroUI>
-
-export const Tab: React.FC<TabProps> = props => {
-  return <TabHeroUI {...props} />
-}
-
-Tab.displayName = 'Tab'
+export const Tab = TabHeroUI

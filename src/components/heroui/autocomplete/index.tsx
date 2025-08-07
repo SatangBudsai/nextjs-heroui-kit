@@ -11,20 +11,28 @@ import {
 export type AutocompleteProps = AutocompletePropsHeroUI
 
 export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(({ children, ...props }, ref) => {
-  const processedChildren = React.Children.map(children, child => {
-    if (React.isValidElement(child) && child.type === AutocompleteItem) {
-      return <AutocompleteItemHeroUI key={child.key} {...(child.props as AutocompleteItemPropsHeroUI)} />
-    }
-    if (React.isValidElement(child) && child.type === AutocompleteSection) {
-      return <AutocompleteSectionHeroUI key={child.key} {...(child.props as AutocompleteSectionPropsHeroUI)} />
-    }
-    return child
-  })
+  const processChildren = (childrenToProcess: React.ReactNode): React.ReactNode => {
+    return React.Children.map(childrenToProcess, child => {
+      if (React.isValidElement(child)) {
+        if (child.type === AutocompleteItem) {
+          return <AutocompleteItemHeroUI {...child.props} />
+        }
+        if (child.type === AutocompleteSection) {
+          return (
+            <AutocompleteSectionHeroUI {...child.props}>
+              {processChildren(child.props.children)}
+            </AutocompleteSectionHeroUI>
+          )
+        }
+      }
+      return child
+    })
+  }
 
   return (
     <AutocompleteHeroUI ref={ref} {...props}>
       {/* @ts-ignore */}
-      {processedChildren}
+      {processChildren(children)}
     </AutocompleteHeroUI>
   )
 })
@@ -46,3 +54,5 @@ export const AutocompleteSection: React.FC<AutocompleteSectionProps> = props => 
 }
 
 AutocompleteSection.displayName = 'AutocompleteSection'
+
+export default Autocomplete
