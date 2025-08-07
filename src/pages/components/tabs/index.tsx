@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Tabs, Tab, Card, CardBody } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const TabsTest: React.FC = () => {
+const TabsTest = () => {
   const [selected, setSelected] = useState('photos')
 
   return (
@@ -276,3 +277,13 @@ const TabsTest: React.FC = () => {
 }
 
 export default TabsTest
+
+TabsTest.auth = false
+
+TabsTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

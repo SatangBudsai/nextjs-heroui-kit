@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import {
   Dropdown,
   DropdownTrigger,
@@ -8,8 +8,9 @@ import {
   Button,
   Avatar
 } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const DropdownTest: React.FC = () => {
+const DropdownTest = () => {
   const [selectedKeys, setSelectedKeys] = useState(new Set(['text']))
 
   const selectedValue = React.useMemo(() => Array.from(selectedKeys).join(', ').replaceAll('_', ' '), [selectedKeys])
@@ -342,3 +343,13 @@ const DropdownTest: React.FC = () => {
 }
 
 export default DropdownTest
+
+DropdownTest.auth = false
+
+DropdownTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

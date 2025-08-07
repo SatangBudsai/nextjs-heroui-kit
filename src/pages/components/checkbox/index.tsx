@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Checkbox, CheckboxGroup } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const CheckboxTest: React.FC = () => {
+const CheckboxTest = () => {
   const [isSelected, setIsSelected] = useState(false)
   const [groupValue, setGroupValue] = useState<string[]>([])
 
@@ -219,3 +220,13 @@ const CheckboxTest: React.FC = () => {
 }
 
 export default CheckboxTest
+
+CheckboxTest.auth = false
+
+CheckboxTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

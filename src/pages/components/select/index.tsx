@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Select, SelectItem, SelectSection } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const SelectTest: React.FC = () => {
+const SelectTest = () => {
   const [selectedValue, setSelectedValue] = useState<string>('')
 
   return (
@@ -94,3 +95,13 @@ const SelectTest: React.FC = () => {
 }
 
 export default SelectTest
+
+SelectTest.auth = false
+
+SelectTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Chip } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const ChipTest: React.FC = () => {
+const ChipTest = () => {
   const [chips, setChips] = useState([
     { id: 1, label: 'React', isSelected: false },
     { id: 2, label: 'Vue', isSelected: true },
@@ -269,3 +270,13 @@ const ChipTest: React.FC = () => {
 }
 
 export default ChipTest
+
+ChipTest.auth = false
+
+ChipTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

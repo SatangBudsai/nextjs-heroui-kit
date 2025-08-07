@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Breadcrumbs, BreadcrumbItem } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const BreadcrumbsTest: React.FC = () => {
+const BreadcrumbsTest = () => {
   const [currentPage, setCurrentPage] = useState('song')
 
   return (
@@ -354,3 +355,13 @@ const BreadcrumbsTest: React.FC = () => {
 }
 
 export default BreadcrumbsTest
+
+BreadcrumbsTest.auth = false
+
+BreadcrumbsTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

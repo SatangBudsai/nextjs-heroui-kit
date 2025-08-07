@@ -9,17 +9,19 @@ import {
 export type AccordionProps = AccordionPropsHeroUI
 
 export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(({ children, ...props }, ref) => {
-  const processedChildren = React.Children.map(children, child => {
-    if (React.isValidElement(child) && child.type === AccordionItem) {
-      return <AccordionItemHeroUI key={child.key} {...(child.props as AccordionItemPropsHeroUI)} />
-    }
-    return child
-  })
+  const processChildren = (childrenToProcess: React.ReactNode): React.ReactNode => {
+    return React.Children.map(childrenToProcess, child => {
+      if (React.isValidElement(child) && child.type === AccordionItem) {
+        return <AccordionItemHeroUI key={child.key} {...child.props} />
+      }
+      return child
+    })
+  }
 
   return (
     <AccordionHeroUI ref={ref} {...props}>
       {/* @ts-ignore */}
-      {processedChildren}
+      {processChildren(children)}
     </AccordionHeroUI>
   )
 })
@@ -28,8 +30,10 @@ Accordion.displayName = 'Accordion'
 
 export type AccordionItemProps = AccordionItemPropsHeroUI
 
-export const AccordionItem: React.FC<AccordionItemProps> = props => {
-  return null // This component won't render directly
+export const AccordionItem: React.FC<AccordionItemProps> = ({ children, ...props }) => {
+  return <AccordionItemHeroUI {...props}>{children}</AccordionItemHeroUI>
 }
 
 AccordionItem.displayName = 'AccordionItem'
+
+export default Accordion

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Button, Image } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const CardTest: React.FC = () => {
+const CardTest = () => {
   const [isFollowed, setIsFollowed] = useState(false)
 
   return (
@@ -167,3 +168,13 @@ const CardTest: React.FC = () => {
 }
 
 export default CardTest
+
+CardTest.auth = false
+
+CardTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

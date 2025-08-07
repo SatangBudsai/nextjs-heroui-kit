@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { RadioGroup, Radio } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const RadioTest: React.FC = () => {
+const RadioTest = () => {
   const [selected, setSelected] = useState('option1')
   const [customValue, setCustomValue] = useState('')
 
@@ -244,3 +245,13 @@ const RadioTest: React.FC = () => {
 }
 
 export default RadioTest
+
+RadioTest.auth = false
+
+RadioTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

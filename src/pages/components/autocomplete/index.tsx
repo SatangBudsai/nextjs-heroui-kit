@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Autocomplete, AutocompleteItem, AutocompleteSection } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const AutocompleteTest: React.FC = () => {
+const AutocompleteTest = () => {
   const [selectedValue, setSelectedValue] = useState<string>('')
 
   return (
@@ -129,3 +130,13 @@ const AutocompleteTest: React.FC = () => {
 }
 
 export default AutocompleteTest
+
+AutocompleteTest.auth = false
+
+AutocompleteTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

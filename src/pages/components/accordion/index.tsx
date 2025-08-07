@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Accordion, AccordionItem } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const AccordionTest: React.FC = () => {
+const AccordionTest = () => {
   const [selectedKeys, setSelectedKeys] = useState(new Set(['1']))
 
   return (
@@ -152,3 +153,13 @@ const AccordionTest: React.FC = () => {
 }
 
 export default AccordionTest
+
+AccordionTest.auth = false
+
+AccordionTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

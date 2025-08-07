@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Spinner } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const SpinnerTest: React.FC = () => {
+const SpinnerTest = () => {
   return (
     <div className='space-y-8 p-8'>
       <div className='space-y-4'>
@@ -233,3 +234,13 @@ const SpinnerTest: React.FC = () => {
 }
 
 export default SpinnerTest
+
+SpinnerTest.auth = false
+
+SpinnerTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

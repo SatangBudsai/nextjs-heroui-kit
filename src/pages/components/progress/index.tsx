@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ReactElement, Fragment } from 'react'
 import { Progress, CircularProgress } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const ProgressTest: React.FC = () => {
+const ProgressTest = () => {
   const [value, setValue] = useState(0)
   const [animatedValue, setAnimatedValue] = useState(0)
 
@@ -235,3 +236,13 @@ const ProgressTest: React.FC = () => {
 }
 
 export default ProgressTest
+
+ProgressTest.auth = false
+
+ProgressTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

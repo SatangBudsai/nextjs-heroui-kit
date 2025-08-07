@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Code } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const CodeTest: React.FC = () => {
+const CodeTest = () => {
   return (
     <div className='space-y-8 p-8'>
       <div className='space-y-4'>
@@ -351,3 +352,13 @@ const CodeTest: React.FC = () => {
 }
 
 export default CodeTest
+
+CodeTest.auth = false
+
+CodeTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

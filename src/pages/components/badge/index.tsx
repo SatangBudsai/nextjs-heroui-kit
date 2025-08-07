@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Badge, Avatar, Button } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const BadgeTest: React.FC = () => {
+const BadgeTest = () => {
   const [count, setCount] = useState(5)
   const [isInvisible, setIsInvisible] = useState(false)
 
@@ -294,3 +295,12 @@ const BadgeTest: React.FC = () => {
 }
 
 export default BadgeTest
+BadgeTest.auth = false
+
+BadgeTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

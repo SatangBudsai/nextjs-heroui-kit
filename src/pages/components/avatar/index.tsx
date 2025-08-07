@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Avatar, AvatarGroup } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const AvatarTest: React.FC = () => {
+const AvatarTest = () => {
   const [isDisabled, setIsDisabled] = useState(false)
 
   return (
@@ -241,3 +242,13 @@ const AvatarTest: React.FC = () => {
 }
 
 export default AvatarTest
+
+AvatarTest.auth = false
+
+AvatarTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

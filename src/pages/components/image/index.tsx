@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Image } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const ImageTest: React.FC = () => {
+const ImageTest = () => {
   return (
     <div className='space-y-8 p-8'>
       <div className='space-y-4'>
@@ -296,3 +297,13 @@ const ImageTest: React.FC = () => {
 }
 
 export default ImageTest
+
+ImageTest.auth = false
+
+ImageTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

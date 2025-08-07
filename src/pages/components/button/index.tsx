@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Button, ButtonGroup } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const ButtonTest: React.FC = () => {
+const ButtonTest = () => {
   return (
     <div className='space-y-8 p-8'>
       <div className='space-y-4'>
@@ -123,3 +124,13 @@ const ButtonTest: React.FC = () => {
 }
 
 export default ButtonTest
+
+ButtonTest.auth = false
+
+ButtonTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

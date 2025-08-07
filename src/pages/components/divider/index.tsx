@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Divider, Card, CardBody } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const DividerTest: React.FC = () => {
+const DividerTest = () => {
   return (
     <div className='space-y-8 p-8'>
       <div className='space-y-4'>
@@ -265,3 +266,13 @@ const DividerTest: React.FC = () => {
 }
 
 export default DividerTest
+
+DividerTest.auth = false
+
+DividerTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

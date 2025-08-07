@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Listbox, ListboxItem, ListboxSection, Avatar, Chip } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const ListboxTest: React.FC = () => {
+const ListboxTest = () => {
   const [selectedKeys, setSelectedKeys] = useState(new Set(['text']))
   const [values, setValues] = useState(new Set(['argentina']))
 
@@ -363,3 +364,13 @@ const ListboxTest: React.FC = () => {
 }
 
 export default ListboxTest
+
+ListboxTest.auth = false
+
+ListboxTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

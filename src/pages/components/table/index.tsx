@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Image } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const TableTest: React.FC = () => {
+const TableTest = () => {
   const [selectedKeys, setSelectedKeys] = useState(new Set<string>())
 
   const users = [
@@ -236,3 +237,13 @@ const TableTest: React.FC = () => {
 }
 
 export default TableTest
+
+TableTest.auth = false
+
+TableTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}

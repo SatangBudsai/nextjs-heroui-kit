@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@/components/heroui'
+import MainLayout from '@/layouts/main-layout'
 
-const ModalTest: React.FC = () => {
+const ModalTest = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrollOpen, setIsScrollOpen] = useState(false)
   const [isBackdropOpen, setIsBackdropOpen] = useState(false)
@@ -166,3 +167,13 @@ const ModalPlacementExample: React.FC<{ placement: any }> = ({ placement }) => {
 }
 
 export default ModalTest
+
+ModalTest.auth = false
+
+ModalTest.getLayout = (page: ReactElement) => {
+  return (
+    <Fragment>
+      <MainLayout>{page}</MainLayout>
+    </Fragment>
+  )
+}
