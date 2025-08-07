@@ -38,8 +38,22 @@ SelectItem.displayName = 'SelectItem'
 
 export type SelectSectionProps = SelectSectionPropsHeroUI
 
-export const SelectSection: React.FC<SelectSectionProps> = props => {
-  return null // This component won't render directly
-}
+export const SelectSection = forwardRef<HTMLElement, SelectSectionProps>(({ children, ...props }, ref) => {
+  const processedChildren = React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === SelectItem) {
+      return <SelectItemHeroUI key={child.key} {...(child.props as SelectItemPropsHeroUI)} />
+    }
+    return child
+  })
+
+  return (
+    <SelectSectionHeroUI ref={ref} {...props}>
+      {/* @ts-ignore */}
+      {processedChildren}
+    </SelectSectionHeroUI>
+  )
+})
 
 SelectSection.displayName = 'SelectSection'
+
+export default Select
