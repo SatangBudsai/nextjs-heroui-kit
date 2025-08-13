@@ -61,24 +61,49 @@ export class MRZParser {
    * Line 2: 1234567892USA8001014M2501014<<<<<<<<<<<<<<04
    */
   private static parseTD3(lines: string[]): MRZData | null {
-    if (lines.length < 2) return null;
+    if (lines.length < 1) return null;
 
-    const line1 = lines[0];
-    const line2 = lines[1];
+    let line1 = '';
+    let line2 = '';
 
-    // Basic validation for TD3
-    if (line1.length < 44 || line2.length < 44) return null;
-    if (!line1.startsWith('P<')) return null;
+    if (lines.length >= 2) {
+      // We have both lines
+      line1 = lines[0];
+      line2 = lines[1];
+    } else if (lines.length === 1) {
+      // Try to determine which line we have
+      const singleLine = lines[0];
+      if (singleLine.startsWith('P<')) {
+        // We have the first line, can't parse without second line
+        return null;
+      } else {
+        // Assume it's the second line, try to parse what we can
+        line2 = singleLine;
+      }
+    }
+
+    // Basic validation for TD3 - second line is more critical
+    if (!line2 || line2.length < 42) return null;
 
     try {
-      // Parse line 1
-      const documentType = line1.substring(0, 2);
-      const issuingCountry = line1.substring(2, 5);
-      const names = line1.substring(5, 44).split('<<');
-      const lastName = names[0]?.replace(/</g, '') || '';
-      const firstName = names[1]?.replace(/</g, '') || '';
+      let documentType = '';
+      let issuingCountry = '';
+      let lastName = '';
+      let firstName = '';
 
-      // Parse line 2
+      // Parse line 1 if available
+      if (line1 && line1.length >= 5) {
+        documentType = line1.substring(0, 2);
+        issuingCountry = line1.substring(2, 5);
+        
+        if (line1.length >= 44) {
+          const names = line1.substring(5, 44).split('<<');
+          lastName = names[0]?.replace(/</g, '') || '';
+          firstName = names[1]?.replace(/</g, '') || '';
+        }
+      }
+
+      // Parse line 2 (required)
       const documentNumber = line2.substring(0, 9).replace(/</g, '');
       const checkDigit1 = line2.substring(9, 10);
       const nationality = line2.substring(10, 13);
@@ -88,7 +113,15 @@ export class MRZParser {
       const expirationDate = line2.substring(21, 27);
       const checkDigit3 = line2.substring(27, 28);
       const personalNumber = line2.substring(28, 42).replace(/</g, '');
-      const compositeCheckDigit = line2.substring(43, 44);
+      const compositeCheckDigit = line2.length > 43 ? line2.substring(43, 44) : '';
+
+      // If we don't have line1 data, try to extract from other sources or use defaults
+      if (!documentType) {
+        documentType = 'P<'; // Assume passport
+      }
+      if (!issuingCountry) {
+        issuingCountry = nationality; // Use nationality as fallback
+      }
 
       return {
         documentType,
@@ -266,16 +299,30 @@ export class MRZParser {
     const mrzLines: string[] = [];
 
     for (const line of lines) {
-      // Clean the line
+      // Clean the line - remove extra spaces and non-MRZ characters
       const cleanLine = line.replace(/[^A-Z0-9<\s]/g, '').trim();
       
       // Look for lines that might be MRZ (contain specific patterns)
       if (this.isMRZLine(cleanLine)) {
-        mrzLines.push(cleanLine);
+        // Remove all spaces for final MRZ line
+        const finalLine = cleanLine.replace(/\s/g, '');
+        if (finalLine.length >= 28) {
+          mrzLines.push(finalLine);
+        }
       }
     }
 
-    return mrzLines;
+    // Sort by line length (longer lines usually come first in TD3)
+    return mrzLines.sort((a, b) => {
+      // Prefer lines starting with document type codes
+      if (a.startsWith('P<') && !b.startsWith('P<')) return -1;
+      if (b.startsWith('P<') && !a.startsWith('P<')) return 1;
+      if (a.startsWith('I<') && !b.startsWith('I<')) return -1;
+      if (b.startsWith('I<') && !a.startsWith('I<')) return 1;
+      
+      // Then sort by length (descending)
+      return b.length - a.length;
+    });
   }
 
   /**
@@ -292,13 +339,20 @@ export class MRZParser {
     // - Contain mostly uppercase letters, numbers, and < characters
     // - Have specific patterns like P< at the start or date-like sequences
     
-    if ([30, 36, 44].includes(noSpaces.length)) {
+    // Check length (allow some tolerance)
+    if (noSpaces.length >= 28 && noSpaces.length <= 50) {
       const hasCorrectChars = /^[A-Z0-9<]+$/.test(noSpaces);
-      const hasDocumentPattern = /^[A-Z]{1,2}</.test(noSpaces);
-      const hasDatePattern = /\d{6}/.test(noSpaces);
+      const hasDocumentPattern = /^[A-Z]{1,2}</.test(noSpaces); // P<, I<, etc.
+      const hasDatePattern = /\d{6}/.test(noSpaces); // YYMMDD format
       const hasAngleBrackets = noSpaces.includes('<');
+      const hasCountryCode = /[A-Z]{3}/.test(noSpaces); // 3-letter country code
       
-      return hasCorrectChars && (hasDocumentPattern || hasDatePattern || hasAngleBrackets);
+      // More flexible matching
+      return hasCorrectChars && (
+        hasDocumentPattern || 
+        (hasDatePattern && hasAngleBrackets) ||
+        (hasCountryCode && hasAngleBrackets && noSpaces.length >= 40)
+      );
     }
 
     return false;

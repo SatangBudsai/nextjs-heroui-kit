@@ -91,6 +91,18 @@ const PassportUploader: React.FC<PassportUploaderProps> = ({ onMRZExtracted }) =
               </div>
             </div>
           )}
+
+          {/* Debug Information */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+              <details>
+                <summary className="text-sm font-medium cursor-pointer">Debug Information</summary>
+                <div className="mt-2 text-xs space-y-1">
+                  <p>Check browser console for detailed OCR and MRZ parsing logs</p>
+                </div>
+              </details>
+            </div>
+          )}
         </CardBody>
       </Card>
 

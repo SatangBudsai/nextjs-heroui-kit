@@ -69,15 +69,35 @@ export const useMRZReader = (): UseMRZReaderResult => {
 
       console.log('OCR Result:', text);
 
-      // Extract MRZ lines from OCR text
+      // Extract MRZ lines from OCR text with improved detection
+      const allLines = text.split('\n').map(line => line.trim());
+      console.log('All OCR Lines:', allLines);
+      
       const mrzLines = MRZParser.extractMRZLines(text);
+      console.log('Extracted MRZ Lines:', mrzLines);
+      
+      // If we don't get enough lines, try to find them manually
+      if (mrzLines.length === 1 && allLines.length > 1) {
+        // Look for the first line pattern (P< followed by country code)
+        const firstLinePattern = allLines.find(line => {
+          const cleaned = line.replace(/[^A-Z0-9<]/g, '');
+          return cleaned.startsWith('P<') && cleaned.length >= 40;
+        });
+        
+        if (firstLinePattern) {
+          const cleanedFirst = firstLinePattern.replace(/[^A-Z0-9<]/g, '');
+          if (!mrzLines.includes(cleanedFirst)) {
+            mrzLines.unshift(cleanedFirst);
+          }
+        }
+      }
+      
+      console.log('Final MRZ Lines after manual detection:', mrzLines);
       
       if (mrzLines.length === 0) {
         setError('ไม่พบข้อมูล MRZ ในรูปภาพ กรุณาตรวจสอบว่ารูปภาพเป็น passport หรือบัตรประชาชนที่มี MRZ');
         return null;
       }
-
-      console.log('Extracted MRZ Lines:', mrzLines);
 
       // Parse MRZ data
       const parsedData = MRZParser.parse(mrzLines);
