@@ -1,11 +1,13 @@
 import MainLayout from '@/layouts/main-layout'
 import { Fragment, ReactElement, useEffect, useRef, useState } from 'react'
 import { Icon } from '@iconify/react'
-import { addToast } from '@heroui/react'
+import { addToast, Button, Card, CardBody } from '@heroui/react'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
 const Home = (props: Props) => {
+  const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
   const pcRef = useRef<RTCPeerConnection | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -284,6 +286,31 @@ const Home = (props: Props) => {
       <div onClick={() => addToast({ title: 'Test Toast', description: 'This is a test toast notification.' })}>
         zxc
       </div>
+
+      {/* Quick Access Card */}
+      <div className='container mx-auto p-4 mb-6'>
+        <div className='mx-auto max-w-4xl'>
+          <Card>
+            <CardBody>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <h2 className='text-lg font-semibold mb-2'>🛂 Passport MRZ Scanner</h2>
+                  <p className='text-sm text-default-500'>อัพโหลดรูป passport เพื่ออ่านข้อมูล MRZ อัตโนมัติ</p>
+                </div>
+                <Button 
+                  color="primary" 
+                  variant="flat"
+                  startContent={<Icon icon="lucide:scan" />}
+                  onPress={() => router.push('/passport-scanner')}
+                >
+                  เริ่มสแกน
+                </Button>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+
       <div className='container mx-auto p-4'>
         <div className='mx-auto max-w-4xl'>
           <h1 className='mb-4 text-2xl font-bold'>WebRTC Live Stream</h1>
