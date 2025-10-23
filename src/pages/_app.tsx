@@ -1,6 +1,5 @@
 import { Fragment, ReactElement, useEffect } from 'react'
 import '@/styles/globals.css'
-import dynamic from 'next/dynamic'
 
 //SetUp Store redux
 import { Provider as ReduxProvider } from 'react-redux'
@@ -13,7 +12,6 @@ import DayjsProvider from '@/providers/dayjs'
 import NextUIProvider from '@/providers/next-ui/index'
 import AuthGuard from '@/providers/auth'
 import RootLayout from '@/layouts/root-layout'
-import SocketProvider from '@/providers/socket'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -26,7 +24,6 @@ import '@/configs/i18n'
 import '@/iconify-bundle/icons-bundle-react'
 
 import { Prompt } from 'next/font/google'
-import { AuthModalProvider } from '@/components/auth'
 const prompt = Prompt({
   subsets: ['latin', 'latin-ext', 'thai'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -50,16 +47,18 @@ export default function App({ Component, pageProps }: AppPropsWithLayoutType) {
           <NprogressProvider>
             <NextUIProvider>
               <DayjsProvider>
-                <AuthModalProvider>
-                  <AuthGuard isAuth={auth}>
-                    <style jsx global>{`
+                <AuthGuard isAuth={auth}>
+                  <style
+                    dangerouslySetInnerHTML={{
+                      __html: `
                       * {
                         font-family: ${prompt.style.fontFamily};
                       }
-                    `}</style>
-                    <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
-                  </AuthGuard>
-                </AuthModalProvider>
+                    `
+                    }}
+                  />
+                  <RootLayout>{getLayout(<Component {...pageProps} />)}</RootLayout>
+                </AuthGuard>
               </DayjsProvider>
             </NextUIProvider>
           </NprogressProvider>
