@@ -1,6 +1,7 @@
 import MainLayout from '@/layouts/main-layout'
 import { Fragment, ReactElement, useEffect, useRef, useState } from 'react'
 import { Icon } from '@iconify/react'
+import { addToast } from '@heroui/react'
 
 type Props = {}
 
@@ -12,7 +13,7 @@ const Home = (props: Props) => {
   const [isConnected, setIsConnected] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
 
-  const webrtcUrl = "webrtc://192.168.2.41/live/teststream"
+  const webrtcUrl = 'webrtc://192.168.2.41/live/teststream'
 
   useEffect(() => {
     const connectWebRTC = async () => {
@@ -24,16 +25,13 @@ const Home = (props: Props) => {
 
         // สร้าง RTCPeerConnection
         const pc = new RTCPeerConnection({
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' }
-          ]
+          iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }]
         })
 
         pcRef.current = pc
 
         // รับ stream จาก WebRTC
-        pc.ontrack = (event) => {
+        pc.ontrack = event => {
           console.log('Received remote stream:', event.streams[0])
           if (videoRef.current && event.streams[0]) {
             videoRef.current.srcObject = event.streams[0]
@@ -63,7 +61,7 @@ const Home = (props: Props) => {
           }
         }
 
-        pc.addEventListener('error', (event) => {
+        pc.addEventListener('error', event => {
           console.error('WebRTC error:', event)
           setError('เกิดข้อผิดพลาดในการเชื่อมต่อ WebRTC')
           setIsLoading(false)
@@ -72,7 +70,6 @@ const Home = (props: Props) => {
         // สำหรับ WebRTC server ที่รองรับ WHEP (WebRTC-HTTP Egress Protocol)
         // หรือใช้ WebSocket signaling
         await connectToWebRTCServer(pc)
-
       } catch (err) {
         console.error('WebRTC initialization error:', err)
         setError('ไม่สามารถเชื่อมต่อ WebRTC ได้: ' + (err as Error).message)
@@ -118,7 +115,7 @@ const Home = (props: Props) => {
       const response = await fetch(srsApiUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           api: srsApiUrl,
@@ -162,7 +159,7 @@ const Home = (props: Props) => {
           const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               streamurl: 'webrtc://192.168.2.41/live/teststream',
@@ -213,7 +210,7 @@ const Home = (props: Props) => {
           let response = await fetch(endpoint, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               sdp: offer.sdp,
@@ -226,7 +223,7 @@ const Home = (props: Props) => {
             response = await fetch(endpoint, {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/sdp',
+                'Content-Type': 'application/sdp'
               },
               body: offer.sdp
             })
@@ -284,30 +281,32 @@ const Home = (props: Props) => {
 
   return (
     <Fragment>
-      <div className="container mx-auto p-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-4">WebRTC Live Stream</h1>
+      <div onClick={() => addToast({ title: 'Test Toast', description: 'This is a test toast notification.' })}>
+        zxc
+      </div>
+      <div className='container mx-auto p-4'>
+        <div className='mx-auto max-w-4xl'>
+          <h1 className='mb-4 text-2xl font-bold'>WebRTC Live Stream</h1>
 
-          <div className="bg-black rounded-lg overflow-hidden shadow-lg relative">
-            <div className="relative aspect-video">
+          <div className='relative overflow-hidden rounded-lg bg-black shadow-lg'>
+            <div className='relative aspect-video'>
               {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                    <div className="text-white">กำลังเชื่อมต่อ WebRTC...</div>
+                <div className='absolute inset-0 z-10 flex items-center justify-center bg-gray-900'>
+                  <div className='text-center'>
+                    <div className='mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-white'></div>
+                    <div className='text-white'>กำลังเชื่อมต่อ WebRTC...</div>
                   </div>
                 </div>
               )}
 
               {error && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
-                  <div className="text-center text-red-500 p-4">
-                    <div className="text-xl mb-2">⚠️</div>
-                    <div className="mb-4">{error}</div>
+                <div className='absolute inset-0 z-10 flex items-center justify-center bg-gray-900'>
+                  <div className='p-4 text-center text-red-500'>
+                    <div className='mb-2 text-xl'>⚠️</div>
+                    <div className='mb-4'>{error}</div>
                     <button
                       onClick={handleReconnect}
-                      className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-                    >
+                      className='rounded bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700'>
                       ลองใหม่
                     </button>
                   </div>
@@ -320,37 +319,40 @@ const Home = (props: Props) => {
                 playsInline
                 muted
                 controls={false}
-                className="w-full h-full object-cover"
+                className='h-full w-full object-cover'
                 onLoadStart={() => console.log('Video loading started')}
                 onCanPlay={() => {
                   console.log('Video can play')
                   setIsLoading(false)
                 }}
-                onError={(e) => {
+                onError={e => {
                   console.error('Video error:', e)
                   setError('ไม่สามารถเล่นวีดีโอได้')
                 }}
               />
 
               {isConnected && (
-                <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium z-20">
+                <div className='absolute right-4 top-4 z-20 rounded-full bg-red-600 px-3 py-1 text-sm font-medium text-white'>
                   🔴 LIVE
                 </div>
               )}
             </div>
           </div>
 
-          <div className="mt-4 space-y-2">
-            <div className="text-sm text-gray-600">
-              <p><strong>Stream URL:</strong> {webrtcUrl}</p>
+          <div className='mt-4 space-y-2'>
+            <div className='text-sm text-gray-600'>
+              <p>
+                <strong>Stream URL:</strong> {webrtcUrl}
+              </p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className={`w-3 h-3 rounded-full ${
-                  isConnected ? 'bg-green-500' : isLoading ? 'bg-yellow-500' : 'bg-red-500'
-                }`}></div>
-                <span className="text-sm">
+            <div className='flex items-center gap-4'>
+              <div className='flex items-center gap-2'>
+                <div
+                  className={`h-3 w-3 rounded-full ${
+                    isConnected ? 'bg-green-500' : isLoading ? 'bg-yellow-500' : 'bg-red-500'
+                  }`}></div>
+                <span className='text-sm'>
                   {isConnected ? 'เชื่อมต่อแล้ว' : isLoading ? 'กำลังเชื่อมต่อ...' : 'ไม่ได้เชื่อมต่อ'}
                 </span>
               </div>
@@ -358,12 +360,11 @@ const Home = (props: Props) => {
           </div>
 
           {/* ปุ่มควบคุม */}
-          <div className="mt-4 flex gap-2">
+          <div className='mt-4 flex gap-2'>
             <button
               onClick={handleReconnect}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-              disabled={isLoading}
-            >
+              className='rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
+              disabled={isLoading}>
               {isLoading ? 'กำลังเชื่อมต่อ...' : 'เชื่อมต่อใหม่'}
             </button>
 
@@ -375,9 +376,8 @@ const Home = (props: Props) => {
                   }
                 }
               }}
-              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-              disabled={!isConnected}
-            >
+              className='rounded bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700'
+              disabled={!isConnected}>
               เต็มจอ
             </button>
 
@@ -388,17 +388,16 @@ const Home = (props: Props) => {
                   videoRef.current.muted = !videoRef.current.muted
                 }
               }}
-              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-              disabled={!isConnected}
-            >
+              className='rounded bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700'
+              disabled={!isConnected}>
               {isMuted ? '🔇' : '🔊'}
             </button>
           </div>
 
           {/* คำแนะนำ */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h3 className="font-medium mb-2">คำแนะนำการตั้งค่า:</h3>
-            <ul className="text-sm space-y-1 text-gray-700">
+          <div className='mt-6 rounded-lg bg-blue-50 p-4'>
+            <h3 className='mb-2 font-medium'>คำแนะนำการตั้งค่า:</h3>
+            <ul className='space-y-1 text-sm text-gray-700'>
               <li>• ตรวจสอบว่า WebRTC server รองรับ WHEP หรือ WebSocket signaling</li>
               <li>• ตรวจสอบการตั้งค่า CORS ของ server</li>
               <li>• ใช้ HTTPS ใน production environment</li>
